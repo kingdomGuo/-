@@ -73,7 +73,9 @@ export default {
     console.log("android " + this.android + " iOS " + this.iOS);
     console.log("isWeiXin " + this.weiXin + " qq " + this.qq);
   },
-
+  beforeMount() {
+    document.title = "晓听+";
+  },
   methods: {
     installAndroidApp() {
       if (this.weiXin || this.qq) {
