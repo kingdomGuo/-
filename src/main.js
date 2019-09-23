@@ -1,8 +1,9 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import "./common/reset.css";
-import "amfe-flexible";
+import "@sass/index.scss";
+import "@common/js/rem";
+// import "amfe-flexible";
 
 Vue.config.productionTip = false;
 
