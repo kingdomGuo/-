@@ -1,16 +1,26 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
-
+const ucIndex = () => import("@/pages/ucIndex.vue");
+const home = () => import("@pages/Home.vue");
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
       path: "/",
+      name: "ucIndex",
+      component: ucIndex
+    },
+    {
+      path: "/ucIndex",
+      name: "ucIndex",
+      component: ucIndex
+    },
+    {
+      path: "/home",
       name: "home",
-      component: Home
-    }
+      component: home
+    },
     // {
     //   path: "/about",
     //   name: "about",

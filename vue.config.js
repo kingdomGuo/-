@@ -30,6 +30,7 @@ module.exports = {
       .set("@common", resolve("src/common"))
       .set("@components", resolve("src/components"))
       .set("@pages", resolve("src/pages"))
+      .set("@store", resolve("src/store"))
       .set("@sass", resolve("src/common/css"));
     if (isProduction) {
       // 压缩图片
