@@ -15,12 +15,12 @@ module.exports = {
   css: {
     extract: true, // 分离插件
     sourceMap: false,
-    modules: false,
-    loaderOptions: {
-      sass: {
-        prependData: `@import "@/common/css/index.scss"`
-      }
-    }
+    modules: false
+    // loaderOptions: {
+    //   sass: {
+    //     prependData: `@import "@/common/css/index.scss"`
+    //   }
+    // }
   },
   // webpack配置
   chainWebpack: config => {

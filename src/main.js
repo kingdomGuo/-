@@ -12,7 +12,6 @@ import store from "./store/index";
 fastclick.attach(document.body);
 Vue.config.productionTip = false;
 Vue.use(Lazyload, {});
-
 new Vue({
   router,
   store,

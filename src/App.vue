@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <tab-bar v-if="currentPath !== '/login'"></tab-bar>
-    <router-view />
+    <tab-bar v-if="currentPath !== '/home'"></tab-bar>
+    <keep-alive>
+      <router-view />
+    </keep-alive>
   </div>
 </template>
 <script>
@@ -35,5 +37,8 @@ export default {
 }
 .ucIndex-wrapper .van-tab span {
   display: inline-block !important;
+}
+.ucIndex-wrapper .stickyWrapper .van-tab--active {
+  font-size: 16px !important;
 }
 </style>

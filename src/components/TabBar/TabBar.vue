@@ -1,6 +1,6 @@
 <template>
   <div class="tabBar-wrapper">
-    <van-tabbar v-model="active" :z-index="zIndex">
+    <van-tabbar v-model="active" route :z-index="zIndex">
       <van-tabbar-item replace to="/ucIndex">
         <span>首页</span>
         <img
@@ -45,6 +45,8 @@ export default {
   components: {
     [Tabbar.name]: Tabbar,
     [TabbarItem.name]: TabbarItem
+  },
+  mounted() {
   }
 };
 </script>
