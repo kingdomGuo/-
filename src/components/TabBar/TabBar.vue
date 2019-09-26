@@ -46,8 +46,7 @@ export default {
     [Tabbar.name]: Tabbar,
     [TabbarItem.name]: TabbarItem
   },
-  mounted() {
-  }
+  mounted() {}
 };
 </script>
 

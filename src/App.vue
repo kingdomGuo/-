@@ -41,6 +41,9 @@ export default {
 .ucIndex-wrapper .stickyWrapper .van-tab--active {
   font-size: 16px !important;
 }
+.ucIndex-wrapper .stickyWrapper .van-sticky--fixed {
+  position: static !important;
+}
 .albulmlist-wrapper .van-icon-arrow {
   margin-top: 2px !important;
   margin-left: 3px !important;
@@ -52,5 +55,17 @@ export default {
   max-width: 105px !important;
   max-height: 105px !important;
 }
+@supports (bottom: env(safe-area-inset-bottom)) {
+  body,
+  .tabBar-wrapper .van-tabbar {
+    height: 66px;
+    // padding-bottom: constant(safe-area-inset-bottom);
+    // padding-bottom: env(safe-area-inset-bottom);
+  }
+}
 
+.tabBar-wrapper .van-tabbar .van-tabbar-item .van-tabbar-item__icon img {
+  width: 22px !important;
+  height: 22px !important;
+}
 </style>

@@ -91,7 +91,14 @@ export default {
       show: false,
       container: null,
       otherALlData: [],
-      navData: ["口袋故事口袋故事", "贝瓦儿歌", "国学经典", "诗词大全", "唐诗考评", "唐诗考评1"],
+      navData: [
+        "口袋故事口袋故事",
+        "贝瓦儿歌",
+        "国学经典",
+        "诗词大全",
+        "唐诗考评",
+        "唐诗考评1"
+      ],
       tabData: [
         {
           name: "儿童"
@@ -174,7 +181,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  bottom: 50px;
+  bottom: 66px;
   right: 0;
   width: 100%;
   margin: 0 auto;
@@ -202,7 +209,7 @@ export default {
     overflow: hidden;
   }
   .swiper-wrapper {
-    padding: 0 15px 14px;
+    padding: 14px 15px 14px;
     cursor: pointer;
     .van-swipe img {
       display: block;
@@ -214,7 +221,8 @@ export default {
     }
   }
   .stickyWrapper {
-    border-bottom: 1px solid #8E8E92;
+    border-bottom: 1px solid #8e8e92;
+    box-sizing: border-box;
   }
   .swiper-wrapper-fix {
     position: absolute;
