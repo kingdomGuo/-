@@ -41,4 +41,16 @@ export default {
 .ucIndex-wrapper .stickyWrapper .van-tab--active {
   font-size: 16px !important;
 }
+.albulmlist-wrapper .van-icon-arrow {
+  margin-top: 2px !important;
+  margin-left: 3px !important;
+  float: right !important;
+}
+.albulmlist-wrapper .album-list img {
+  border-radius: 10px !important;
+  min-height: 105px !important;
+  max-width: 105px !important;
+  max-height: 105px !important;
+}
+
 </style>

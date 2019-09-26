@@ -14,3 +14,19 @@ export function carousel(query) {
     params: query
   });
 }
+
+// 首页板块
+export function batchIndexList(query) {
+  query = {
+    app_id: APIkey,
+    user_id: JSON.parse(localStorage.getItem("outh")).userId,
+    type: "child",
+    page: query.page,
+    count: query.count
+  }
+  return fetch({
+    url: "/mobile-app/api/resource/batch/list",
+    method: "get",
+    params: query
+  })
+}

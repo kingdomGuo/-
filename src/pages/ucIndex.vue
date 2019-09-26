@@ -22,7 +22,13 @@
         </div>
         <div ref="container">
           <van-sticky class="stickyWrapper">
-            <van-tabs @click="onTabClick" v-model="active" color="#g666gg" title-active-color="#ee0a24" swipeable>
+            <van-tabs
+              @click="onTabClick"
+              v-model="active"
+              color="#2C68FF"
+              title-active-color="#2C68FF"
+              swipeable
+            >
               <van-tab
                 v-for="(item, index) in tabData"
                 :title="item.name"
@@ -33,22 +39,26 @@
           </van-sticky>
         </div>
         <div>
-          <div
-            v-show="images.length"
-            class="ceshi"
-            v-for="index in 20"
-            :key="index"
-          >
-            {{ index }}
+          <div class="nav-list">
+            <nav-bar :data="otherALlData"></nav-bar>
           </div>
-          <div v-show="!images.length" class="loading-container">
+          <div class="albumList" v-for="item in otherALlData" :key="item.id">
+            <album-list :albumData="item"></album-list>
+          </div>
+          <div v-show="!otherALlData.length" class="loading-container">
             <loading></loading>
           </div>
         </div>
       </div>
       <div class="swiper-wrapper-fix swiperWrapperFix" v-if="show">
         <van-sticky class="stickyWrapper" ref="stickyWrapper">
-          <van-tabs @click="onTabClick" v-model="active" color="#g666gg" title-active-color="#ee0a24" swipeable>
+          <van-tabs
+            @click="onTabClick"
+            v-model="active"
+            color="#2C68FF"
+            title-active-color="#2C68FF"
+            swipeable
+          >
             <van-tab
               v-for="(item, index) in tabData"
               :title="item.name"
@@ -65,9 +75,11 @@
 <script>
 import { Swipe, SwipeItem, Tab, Tabs, Sticky } from "vant";
 import { ERR_CODE } from "@/utils/config.js";
-import { carousel } from "@/api/api.index.js";
+import { carousel, batchIndexList } from "@/api/api.index.js";
 import Scroll from "@components/Scroll/Scroll.vue";
 import loading from "@components/loading/loading.vue";
+import NavBar from "@components/NavBar/NavBar.vue";
+import AlbumList from "@components/AlbumList/AlbumList.vue";
 export default {
   data() {
     return {
@@ -78,6 +90,8 @@ export default {
       listenScroll: true,
       show: false,
       container: null,
+      otherALlData: [],
+      navData: ["口袋故事口袋故事", "贝瓦儿歌", "国学经典", "诗词大全", "唐诗考评", "唐诗考评1"],
       tabData: [
         {
           name: "儿童"
@@ -89,6 +103,7 @@ export default {
           name: "绘本"
         }
       ],
+      albumData: [],
       images: []
     };
   },
@@ -99,17 +114,26 @@ export default {
     [Tabs.name]: Tabs,
     [Sticky.name]: Sticky,
     Scroll: Scroll,
-    loading: loading
+    loading: loading,
+    NavBar: NavBar,
+    AlbumList: AlbumList
   },
   beforeCreate() {
     document.title = "首页";
   },
+  activated() {
+    document.title = "首页";
+  },
   mounted() {
     this.getCarousel();
+    this.getBatchIndexList();
     this.container = this.$refs.container;
   },
   watch: {
     scrollY(newY) {
+      if (newY > 0) {
+        return;
+      }
       if (Math.abs(newY) > this.$refs.swiperWrapper.clientHeight) {
         this.show = true;
       } else {
@@ -122,6 +146,13 @@ export default {
       let { data } = await carousel({ page: "index" });
       if (data.errcode === ERR_CODE) {
         this.images = [data.data[0], ...data.data];
+      }
+    },
+    async getBatchIndexList() {
+      let { data } = await batchIndexList({ page: 1, count: 60 });
+      if (data.errcode === ERR_CODE) {
+        this.otherALlData = data.data;
+        console.log(this.otherALlData);
       }
     },
     linkUrl(url) {
@@ -146,6 +177,8 @@ export default {
   bottom: 50px;
   right: 0;
   width: 100%;
+  margin: 0 auto;
+  max-width: 540px;
   .listAlbum-content {
     position: relative;
     width: 100%;
@@ -159,9 +192,18 @@ export default {
   .activeHeight {
     height: 375px;
   }
+  .nav-list {
+    padding: 0 15px;
+    padding-top: 36px;
+    margin-bottom: 13px;
+  }
+  .albumList {
+    padding: 0 15px;
+    overflow: hidden;
+  }
   .swiper-wrapper {
-    padding: 10px;
-    padding-top: 0px;
+    padding: 0 15px 14px;
+    cursor: pointer;
     .van-swipe img {
       display: block;
       box-sizing: border-box;
@@ -171,9 +213,8 @@ export default {
       pointer-events: none;
     }
   }
-  .ceshi {
-    height: 50px;
-    background: blue;
+  .stickyWrapper {
+    border-bottom: 1px solid #8E8E92;
   }
   .swiper-wrapper-fix {
     position: absolute;
