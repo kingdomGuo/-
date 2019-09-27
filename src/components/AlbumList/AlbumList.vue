@@ -2,16 +2,23 @@
   <div class="albulmlist-wrapper" v-if="albumData">
     <div class="album-title">
       <div class="left">{{ albumData.mouldName }}</div>
-      <div class="right">更多 <van-icon name="arrow" size="12" /></div>
+      <div class="right" @click="clickMuch(albumData)">
+        更多 <van-icon name="arrow" size="12" />
+      </div>
     </div>
     <div class="album-list" v-if="albumData && albumData.data.length > 0">
-      <div class="album-item" v-for="item in albumData.data" :key="item.id">
+      <div
+        class="album-item"
+        v-for="item in albumData.data"
+        :key="item.id"
+        @click="clickAlbum(item)"
+      >
         <div class="album-padding">
           <div class="top-img">
             <img fit="cover" v-lazy="item.front_url" />
           </div>
-          <div class="bottom-title"></div>
-          <div class="bottom-introduce"></div>
+          <div class="bottom-title">{{ item.name }}</div>
+          <!-- <div class="bottom-introduce"></div> -->
         </div>
       </div>
     </div>
@@ -35,6 +42,14 @@ export default {
     return {
       key: "value"
     };
+  },
+  methods: {
+    clickMuch(item) {
+      this.$emit("clickMuch", item);
+    },
+    clickAlbum(item) {
+      this.$emit("clickAlbum", item);
+    }
   }
 };
 </script>
@@ -43,7 +58,7 @@ export default {
 .albulmlist-wrapper {
   .album-title {
     margin-bottom: 17px;
-    padding-top: 17px; 
+    padding-top: 17px;
     height: 18px;
     font-size: 18px;
     font-family: NotoSansHans-Medium, NotoSansHans;
@@ -84,6 +99,22 @@ export default {
             display: block;
           }
         }
+      }
+      .bottom-title {
+        text-align: left;
+        font-size: 13px;
+        font-family: NotoSansHans-Regular, NotoSansHans;
+        font-weight: 400;
+        padding-right: 3px;
+        height: 38px;
+        color: rgba(70, 70, 74, 1);
+        line-height: 20px;
+        margin-top: 8px;
+        display: -webkit-box;
+        display: box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
       }
     }
   }

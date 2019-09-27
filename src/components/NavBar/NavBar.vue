@@ -1,6 +1,11 @@
 <template>
   <div class="nav-wrapper">
-    <div class="nav-item" v-for="(item, index) in data" :key="index">
+    <div
+      class="nav-item"
+      v-for="(item, index) in data"
+      :key="index"
+      @click="clickItem(item)"
+    >
       {{ item.mouldName }}
     </div>
   </div>
@@ -18,8 +23,13 @@ export default {
     return {
       key: "value"
     };
+  },
+  methods: {
+    clickItem(item) {
+      this.$emit("clickItem", item);
+    }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -9,6 +9,7 @@
       :data="images"
     >
       <div>
+        <!-- 轮播图 -->
         <div class="swiper-wrapper" ref="swiperWrapper" indicator-color="blue">
           <van-swipe :autoplay="3000">
             <van-swipe-item
@@ -21,7 +22,7 @@
           </van-swipe>
         </div>
         <div ref="container">
-          <van-sticky class="stickyWrapper">
+          <van-sticky class="stickyWrapper van-hairline--bottom">
             <van-tabs
               @click="onTabClick"
               v-model="active"
@@ -40,17 +41,21 @@
         </div>
         <div>
           <div class="nav-list">
-            <nav-bar :data="otherALlData"></nav-bar>
+            <nav-bar :data="otherALlData" @clickItem="clickItem"></nav-bar>
           </div>
           <div class="albumList" v-for="item in otherALlData" :key="item.id">
-            <album-list :albumData="item"></album-list>
+            <album-list
+              :albumData="item"
+              @clickMuch="clickMuch"
+              @clickAlbum="clickAlbum"
+            ></album-list>
           </div>
           <div v-show="!otherALlData.length" class="loading-container">
             <loading></loading>
           </div>
         </div>
       </div>
-      <div class="swiper-wrapper-fix swiperWrapperFix" v-if="show">
+      <div class="swiper-wrapper-fix swiperWrapperFix" v-show="show">
         <van-sticky class="stickyWrapper" ref="stickyWrapper">
           <van-tabs
             @click="onTabClick"
@@ -69,6 +74,7 @@
         </van-sticky>
       </div>
     </scroll>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -81,6 +87,7 @@ import loading from "@components/loading/loading.vue";
 import NavBar from "@components/NavBar/NavBar.vue";
 import AlbumList from "@components/AlbumList/AlbumList.vue";
 export default {
+  name: "ucIndex",
   data() {
     return {
       key: "首页",
@@ -91,14 +98,6 @@ export default {
       show: false,
       container: null,
       otherALlData: [],
-      navData: [
-        "口袋故事口袋故事",
-        "贝瓦儿歌",
-        "国学经典",
-        "诗词大全",
-        "唐诗考评",
-        "唐诗考评1"
-      ],
       tabData: [
         {
           name: "儿童"
@@ -149,12 +148,28 @@ export default {
     }
   },
   methods: {
+    clickItem(item) {
+      console.log(item);
+    },
+    clickMuch(item) {
+      // this.$router.push(`/detail/${item.id}`);
+      this.$router.push({
+        path: `/muchAlbum`
+      });
+      console.log(this.$router, this.$route);
+      console.log(item);
+    },
+    clickAlbum(item) {
+      console.log(item);
+    },
+    // 获取轮播图
     async getCarousel() {
       let { data } = await carousel({ page: "index" });
       if (data.errcode === ERR_CODE) {
         this.images = [data.data[0], ...data.data];
       }
     },
+    // 获取不同类型的专辑list
     async getBatchIndexList() {
       let { data } = await batchIndexList({ page: 1, count: 60 });
       if (data.errcode === ERR_CODE) {
@@ -181,7 +196,9 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  bottom: 66px;
+  bottom: 56px;
+  bottom: calc(56px + constant(safe-area-inset-bottom));
+  bottom: calc(56px + env(safe-area-inset-bottom));
   right: 0;
   width: 100%;
   margin: 0 auto;
@@ -221,7 +238,6 @@ export default {
     }
   }
   .stickyWrapper {
-    border-bottom: 1px solid #8e8e92;
     box-sizing: border-box;
   }
   .swiper-wrapper-fix {

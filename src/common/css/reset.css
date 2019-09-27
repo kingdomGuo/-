@@ -64,9 +64,9 @@
    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.tabBar-wrapper .van-hairline--top-bottom{
-  border-top: 1px solid #f2f2f2 !important;
-  box-sizing: border-box !important;
+
+.tabBar-wrapper .van-hairline--top-bottom::after, .van-hairline-unset--top-bottom::after {
+  border-top-color: #ccc !important;
 }
 .tabBar-wrapper .van-tab {
   line-height: 44px !important;

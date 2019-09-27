@@ -1,6 +1,11 @@
 <template>
   <div class="tabBar-wrapper">
-    <van-tabbar v-model="active" route :z-index="zIndex">
+    <van-tabbar
+      v-model="active"
+      route
+      :z-index="zIndex"
+      class="van-hairline--top"
+    >
       <van-tabbar-item replace to="/ucIndex">
         <span>首页</span>
         <img
@@ -17,7 +22,13 @@
           :src="props.active ? icon.active1 : icon.normal1"
         />
       </van-tabbar-item>
-      <van-tabbar-item icon="setting-o">标签</van-tabbar-item>
+      <!-- <van-tabbar-item replace to="/home">
+        <span>我的</span>
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.active : icon.normal"
+      /></van-tabbar-item> -->
     </van-tabbar>
   </div>
 </template>

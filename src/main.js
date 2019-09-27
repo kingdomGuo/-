@@ -6,6 +6,12 @@ import fastclick from "fastclick";
 import VueLazyload from "vue-lazyload";
 import "@sass/index.scss";
 import store from "./store/index";
+import Router from "vue-router";
+
+const originalPush = Router.prototype.push;
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err);
+};
 // import "amfe-flexible";
 
 // 300ms延迟

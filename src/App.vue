@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <tab-bar v-if="currentPath !== '/home'"></tab-bar>
+    <tab-bar
+      v-if="currentPath == '/ucIndex' || currentPath == '/home'"
+    ></tab-bar>
     <keep-alive>
       <router-view />
     </keep-alive>
@@ -17,7 +19,8 @@ export default {
       currentPath: ""
     };
   },
-  mounted() {
+  beforeUpdate() {
+    // console.log(this.$route.path == "/ucIndex");
     this.currentPath = this.$route.path;
   }
 };
@@ -44,6 +47,11 @@ export default {
 .ucIndex-wrapper .stickyWrapper .van-sticky--fixed {
   position: static !important;
 }
+
+.ucIndex-wrapper .stickyWrapper .van-hairline--top-bottom::after,
+.ucIndex-wrapper .stickyWrapper .van-hairline-unset--top-bottom::after {
+  border-bottom-color: #ccc !important;
+}
 .albulmlist-wrapper .van-icon-arrow {
   margin-top: 2px !important;
   margin-left: 3px !important;
@@ -58,9 +66,9 @@ export default {
 @supports (bottom: env(safe-area-inset-bottom)) {
   body,
   .tabBar-wrapper .van-tabbar {
-    height: 66px;
-    // padding-bottom: constant(safe-area-inset-bottom);
-    // padding-bottom: env(safe-area-inset-bottom);
+    height: 56px;
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
 

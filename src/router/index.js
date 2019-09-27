@@ -1,34 +1,47 @@
 import Vue from "vue";
 import Router from "vue-router";
 const ucIndex = () => import("@/pages/ucIndex.vue");
+// const ucIndex = resolve => {
+//   import("@/pages/ucIndex.vue").then(module => {
+//     resolve(module);
+//   });
+// };
 const home = () => import("@pages/Home.vue");
+const muchAlbum = () => import("@pages/muchAlbum.vue");
+// const muchAlbum = resolve => {
+//   import("@pages/muchAlbum.vue").then(module => {
+//     resolve(module);
+//   });
+// };
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
       path: "/",
-      name: "ucIndex",
-      component: ucIndex
+      redirect: "/ucIndex"
     },
     {
-      path: "/ucIndex",
-      name: "ucIndex",
-      component: ucIndex
+      path: "/muchAlbum",
+      name: "muchAlbum",
+      component: muchAlbum
     },
     {
       path: "/home",
       name: "home",
       component: home
     },
-    // {
-    //   path: "/about",
-    //   name: "about",
-    //   // route level code-splitting
-    //   // this generates a separate chunk (about.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () =>
-    //     import(/* webpackChunkName: "about" */ "./views/About.vue")
-    // }
+    {
+      path: "/ucIndex",
+      name: "ucIndex",
+      component: ucIndex
+      // children: [
+      //   {
+      //     path: "/detail",
+      //     name: "detail",
+      //     component: detail
+      //   }
+      // ]
+    }
   ]
 });
