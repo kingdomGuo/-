@@ -22,7 +22,7 @@
           </van-swipe>
         </div>
         <div ref="container">
-          <van-sticky class="stickyWrapper van-hairline--bottom">
+          <van-sticky class="stickyWrapper first-stickTb van-hairline--bottom">
             <van-tabs
               @click="onTabClick"
               v-model="active"
@@ -55,7 +55,10 @@
           </div>
         </div>
       </div>
-      <div class="swiper-wrapper-fix swiperWrapperFix" v-show="show">
+      <div
+        class="swiper-wrapper-fix second-stickTb swiperWrapperFix"
+        v-show="show"
+      >
         <van-sticky class="stickyWrapper" ref="stickyWrapper">
           <van-tabs
             @click="onTabClick"
@@ -140,6 +143,27 @@ export default {
       if (newY > 0) {
         return;
       }
+      if (
+        document.querySelector(".first-stickTb .van-tabs__line") &&
+        document.querySelector(".first-stickTb .van-tabs__line").style
+      ) {
+        const first = document.querySelector(".first-stickTb .van-tabs__line")
+          .style.backgroundColor;
+        const second = document.querySelector(".first-stickTb .van-tabs__line")
+          .style.width;
+        const third = document.querySelector(".first-stickTb .van-tabs__line")
+          .style.transform;
+        document.querySelector(
+          ".second-stickTb .van-tabs__line"
+        ).style.width = second;
+        document.querySelector(
+          ".second-stickTb .van-tabs__line"
+        ).style.backgroundColor = first;
+        document.querySelector(
+          ".second-stickTb .van-tabs__line"
+        ).style.transform = third;
+      }
+
       if (Math.abs(newY) > this.$refs.swiperWrapper.clientHeight) {
         this.show = true;
       } else {
@@ -147,6 +171,7 @@ export default {
       }
     }
   },
+  created() {},
   methods: {
     clickItem(item) {
       console.log(item);
@@ -154,7 +179,7 @@ export default {
     clickMuch(item) {
       // this.$router.push(`/detail/${item.id}`);
       this.$router.push({
-        path: `/muchAlbum`
+        path: `/ucIndex/muchAlbum`
       });
       console.log(this.$router, this.$route);
       console.log(item);

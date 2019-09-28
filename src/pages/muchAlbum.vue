@@ -1,29 +1,34 @@
 <template>
-  <div class="muchAlbum-wrapper" v-if="albumData">
-    <div class="album-list" v-if="albumData && albumData.data.length > 0">
-      <div
-        class="album-item"
-        v-for="item in albumData.data"
-        :key="item.id"
-        @click="clickAlbum(item)"
-      >
-        <div class="album-padding">
-          <div class="top-img">
-            <img fit="cover" v-lazy="item.front_url" />
+  <div class="child-muchAlbul">
+    <div class="muchAlbum-wrapper" v-if="albumData">
+      <!-- <div class="album-list" v-if="albumData && albumData.data.length > 0">
+        <div
+          class="album-item"
+          v-for="(item, index) in albumData.data"
+          :key="index"
+          @click="clickAlbum(item)"
+        >
+          <div class="album-padding">
+            <div class="top-img">
+              <img fit="cover" v-lazy="item.front_url" />
+            </div>
+            <div class="bottom-title">{{ item.name }}</div>
+            <div class="bottom-introduce">贝瓦儿歌</div>
           </div>
-          <div class="bottom-title">{{ item.name }}</div>
-          <div class="bottom-introduce">贝瓦儿歌</div>
         </div>
-      </div>
+      </div> -->
+      <album-much :albumData="albumData"></album-much>
     </div>
   </div>
 </template>
 
 <script>
 import { Icon } from "vant";
+import AlbumMuch from "@components/AlbumMuch/AlbumMuch";
 export default {
   components: {
-    [Icon.name]: Icon
+    [Icon.name]: Icon,
+    AlbumMuch: AlbumMuch
   },
   props: {
     albumData: {
@@ -33,6 +38,96 @@ export default {
           albumType: "8",
           id: "84",
           data: [
+            {
+              author: null,
+              description: "",
+              duration: 0,
+              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
+              id: "ADYGP1A0DTE",
+              name: "一千零一夜1",
+              source: "breeze",
+              type: "breeze"
+            },
+            {
+              author: null,
+              description: "",
+              duration: 0,
+              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
+              id: "ADYGP1A0DTE",
+              name: "一千零一夜1",
+              source: "breeze",
+              type: "breeze"
+            },
+            {
+              author: null,
+              description: "",
+              duration: 0,
+              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
+              id: "ADYGP1A0DTE",
+              name: "一千零一夜1",
+              source: "breeze",
+              type: "breeze"
+            },
+            {
+              author: null,
+              description: "",
+              duration: 0,
+              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
+              id: "ADYGP1A0DTE",
+              name: "一千零一夜1",
+              source: "breeze",
+              type: "breeze"
+            },
+            {
+              author: null,
+              description: "",
+              duration: 0,
+              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
+              id: "ADYGP1A0DTE",
+              name: "一千零一夜1",
+              source: "breeze",
+              type: "breeze"
+            },
+            {
+              author: null,
+              description: "",
+              duration: 0,
+              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
+              id: "ADYGP1A0DTE",
+              name: "一千零一夜1",
+              source: "breeze",
+              type: "breeze"
+            },
+            {
+              author: null,
+              description: "",
+              duration: 0,
+              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
+              id: "ADYGP1A0DTE",
+              name: "一千零一夜1",
+              source: "breeze",
+              type: "breeze"
+            },
+            {
+              author: null,
+              description: "",
+              duration: 0,
+              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
+              id: "ADYGP1A0DTE",
+              name: "一千零一夜1",
+              source: "breeze",
+              type: "breeze"
+            },
+            {
+              author: null,
+              description: "",
+              duration: 0,
+              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
+              id: "ADYGP1A0DTE",
+              name: "一千零一夜1",
+              source: "breeze",
+              type: "breeze"
+            },
             {
               author: null,
               description: "",
@@ -97,6 +192,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.child-muchAlbul {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  overflow-y: scroll;
+  background-color: #fff;
+}
 .muchAlbum-wrapper {
   padding: 0 14.5px;
   .album-list {
