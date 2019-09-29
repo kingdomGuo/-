@@ -23,13 +23,12 @@
         </div>
         <!-- 吸顶 -->
         <div ref="container">
-          <van-sticky class="stickyWrapper first-stickTb van-hairline--bottom">
+          <div class="stickyWrapper first-stickTb van-hairline--bottom">
             <van-tabs
               @click="onTabClick"
               v-model="active"
               color="#2C68FF"
               title-active-color="#2C68FF"
-              swipeable
             >
               <van-tab
                 v-for="(item, index) in tabData"
@@ -38,7 +37,7 @@
               >
               </van-tab>
             </van-tabs>
-          </van-sticky>
+          </div>
         </div>
         <div>
           <div class="nav-list">
@@ -60,7 +59,7 @@
         class="swiper-wrapper-fix second-stickTb swiperWrapperFix"
         v-show="show"
       >
-        <van-sticky class="stickyWrapper" ref="stickyWrapper">
+        <div class="stickyWrapper" ref="stickyWrapper">
           <van-tabs
             @click="onTabClick"
             v-model="active"
@@ -75,7 +74,7 @@
             >
             </van-tab>
           </van-tabs>
-        </van-sticky>
+        </div>
       </div>
     </scroll>
     <router-view></router-view>
@@ -96,8 +95,6 @@ export default {
     return {
       active: 0,
       scrollY: -1,
-      probeType: 3,
-      listenScroll: true,
       show: false,
       container: null,
       otherALlData: [],
@@ -132,11 +129,10 @@ export default {
   },
   activated() {
     document.title = "首页";
-    this.getCarousel();
   },
   mounted() {
     this.getBatchIndexList();
-    this.container = this.$refs.container;
+    this.getCarousel();
   },
   watch: {
     scrollY(newY) {
@@ -171,8 +167,15 @@ export default {
       }
     }
   },
-  created() {},
+  created() {
+    this.listenScroll = true;
+    // this.leftListHeight = [];
+    this.probeType = 3; // better-scroll 滚动组件 不截留
+  },
   methods: {
+    refresh() {
+      this.$refs.scroll.refresh();
+    },
     clickItem(item) {
       console.log(item);
     },

@@ -49,6 +49,7 @@ export default {
   },
   created() {
     this.init();
+    this.query = this.$route.query;
   },
   activated() {},
   methods: {
