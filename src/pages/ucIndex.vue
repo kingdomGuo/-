@@ -21,6 +21,7 @@
             </van-swipe-item>
           </van-swipe>
         </div>
+        <!-- 吸顶 -->
         <div ref="container">
           <van-sticky class="stickyWrapper first-stickTb van-hairline--bottom">
             <van-tabs
@@ -93,7 +94,6 @@ export default {
   name: "ucIndex",
   data() {
     return {
-      key: "首页",
       active: 0,
       scrollY: -1,
       probeType: 3,
@@ -132,9 +132,9 @@ export default {
   },
   activated() {
     document.title = "首页";
+    this.getCarousel();
   },
   mounted() {
-    this.getCarousel();
     this.getBatchIndexList();
     this.container = this.$refs.container;
   },
@@ -177,12 +177,15 @@ export default {
       console.log(item);
     },
     clickMuch(item) {
-      // this.$router.push(`/detail/${item.id}`);
       this.$router.push({
-        path: `/ucIndex/muchAlbum`
+        name: "muchAlbum",
+        path: `/ucIndex/muchAlbum`,
+        query: {
+          moduleTitle: item.mouldName,
+          moduleId: item.id,
+          albumType: item.albumType
+        }
       });
-      console.log(this.$router, this.$route);
-      console.log(item);
     },
     clickAlbum(item) {
       console.log(item);
@@ -199,7 +202,6 @@ export default {
       let { data } = await batchIndexList({ page: 1, count: 60 });
       if (data.errcode === ERR_CODE) {
         this.otherALlData = data.data;
-        console.log(this.otherALlData);
       }
     },
     linkUrl(url) {

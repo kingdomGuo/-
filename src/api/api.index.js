@@ -30,3 +30,20 @@ export function batchIndexList(query) {
     params: query
   });
 }
+
+// 首页更多
+export function albumsListAllDetail(query) {
+  query = {
+    app_id: APIkey, // 5bc51a55c6a944d09f3ffce244b6bd18
+    user_id: 1000009738,
+    type: "child",
+    page: query.page,
+    module_id: query.module_id,
+    count: query.count
+  };
+  return fetch({
+    url: "/mobile-app/api/resource/batch/detail",
+    method: "get",
+    params: query
+  });
+}

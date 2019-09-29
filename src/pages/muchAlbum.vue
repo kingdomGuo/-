@@ -1,191 +1,100 @@
 <template>
-  <div class="child-muchAlbul">
-    <div class="muchAlbum-wrapper" v-if="albumData">
-      <!-- <div class="album-list" v-if="albumData && albumData.data.length > 0">
-        <div
-          class="album-item"
-          v-for="(item, index) in albumData.data"
-          :key="index"
-          @click="clickAlbum(item)"
-        >
-          <div class="album-padding">
-            <div class="top-img">
-              <img fit="cover" v-lazy="item.front_url" />
-            </div>
-            <div class="bottom-title">{{ item.name }}</div>
-            <div class="bottom-introduce">贝瓦儿歌</div>
-          </div>
-        </div>
-      </div> -->
-      <album-much :albumData="albumData"></album-much>
-    </div>
+  <div class="child-muchAlbul" @touchmove.prevent>
+    <scroll
+      ref="suggest"
+      class="child-content"
+      :data="albumList"
+      :pullup="pullup"
+      :beforeScroll="beforeScroll"
+      @scrollToEnd="getAlbumList"
+      @beforeScroll="listScroll"
+    >
+      <div class="muchAlbum-wrapper muchAlbum-content">
+        <div style="height:24px;"></div>
+        <album-much
+          :albumData="albumList"
+          :moduleTitle="query.moduleTitle"
+        ></album-much>
+        <loading v-show="hasMore" title=""></loading>
+      </div>
+    </scroll>
   </div>
 </template>
 
 <script>
-import { Icon } from "vant";
+import { ERR_CODE } from "@/utils/config.js";
 import AlbumMuch from "@components/AlbumMuch/AlbumMuch";
+import Scroll from "@components/Scroll/Scroll.vue";
+import { albumsListAllDetail } from "@/api/api.index.js";
+import loading from "@components/loading/loading.vue";
 export default {
   components: {
-    [Icon.name]: Icon,
-    AlbumMuch: AlbumMuch
-  },
-  props: {
-    albumData: {
-      type: Object,
-      default: () => {
-        return {
-          albumType: "8",
-          id: "84",
-          data: [
-            {
-              author: null,
-              description: "",
-              duration: 0,
-              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
-              id: "ADYGP1A0DTE",
-              name: "一千零一夜1",
-              source: "breeze",
-              type: "breeze"
-            },
-            {
-              author: null,
-              description: "",
-              duration: 0,
-              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
-              id: "ADYGP1A0DTE",
-              name: "一千零一夜1",
-              source: "breeze",
-              type: "breeze"
-            },
-            {
-              author: null,
-              description: "",
-              duration: 0,
-              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
-              id: "ADYGP1A0DTE",
-              name: "一千零一夜1",
-              source: "breeze",
-              type: "breeze"
-            },
-            {
-              author: null,
-              description: "",
-              duration: 0,
-              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
-              id: "ADYGP1A0DTE",
-              name: "一千零一夜1",
-              source: "breeze",
-              type: "breeze"
-            },
-            {
-              author: null,
-              description: "",
-              duration: 0,
-              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
-              id: "ADYGP1A0DTE",
-              name: "一千零一夜1",
-              source: "breeze",
-              type: "breeze"
-            },
-            {
-              author: null,
-              description: "",
-              duration: 0,
-              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
-              id: "ADYGP1A0DTE",
-              name: "一千零一夜1",
-              source: "breeze",
-              type: "breeze"
-            },
-            {
-              author: null,
-              description: "",
-              duration: 0,
-              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
-              id: "ADYGP1A0DTE",
-              name: "一千零一夜1",
-              source: "breeze",
-              type: "breeze"
-            },
-            {
-              author: null,
-              description: "",
-              duration: 0,
-              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
-              id: "ADYGP1A0DTE",
-              name: "一千零一夜1",
-              source: "breeze",
-              type: "breeze"
-            },
-            {
-              author: null,
-              description: "",
-              duration: 0,
-              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
-              id: "ADYGP1A0DTE",
-              name: "一千零一夜1",
-              source: "breeze",
-              type: "breeze"
-            },
-            {
-              author: null,
-              description: "",
-              duration: 0,
-              front_url: "http://img.ilisten.idaddy.cn/b/4/kfizoizs.jpg",
-              id: "ADYGP1A0DTE",
-              name: "一千零一夜1",
-              source: "breeze",
-              type: "breeze"
-            },
-            {
-              author: null,
-              description: "",
-              duration: 0,
-              front_url: "http://img.ilisten.idaddy.cn/b/5/69hjkmql.jpg",
-              id: "ADYGP1A0DTA",
-              name: "一千零一夜2",
-              source: "breeze",
-              type: "breeze"
-            },
-            {
-              author: null,
-              description: "",
-              duration: 0,
-              front_url: "http://img.ilisten.idaddy.cn/b/7/5vjm6m1r.jpg",
-              id: "ADYGP1A0DTI",
-              name: "少儿版西游记（上）",
-              source: "breeze",
-              type: "breeze"
-            },
-            {
-              author: null,
-              description: "",
-              duration: 0,
-              front_url: "http://img.ilisten.idaddy.cn/b/8/lwbb0upy.jpg",
-              id: "ADYGMFA9DT0",
-              name: "成语故事-第1季",
-              source: "breeze",
-              type: "breeze"
-            }
-          ],
-          mouldName: "口袋故事",
-          mouldType: "专辑"
-        };
-      }
-    }
+    AlbumMuch: AlbumMuch,
+    Scroll: Scroll,
+    loading: loading
   },
   data() {
     return {
-      key: "value"
+      key: "value",
+      pullup: true,
+      query: {},
+      contentHeight: 0,
+      beforeScroll: true,
+      hasMore: true,
+      albumList: [],
+      page: 1,
+      totalPage: 0,
+      count: 10
     };
   },
+  created() {
+    this.init();
+  },
+  activated() {},
   methods: {
-    clickMuch(item) {
-      this.$emit("clickMuch", item);
+    refresh() {
+      this.$refs.suggest.refresh();
     },
-    clickAlbum(item) {
-      this.$emit("clickAlbum", item);
+    _checkMore(data) {
+      if (this.page >= data.total_page || data.data.length < this.count) {
+        this.hasMore = false;
+      }
+    },
+    async init() {
+      this.page = 1;
+      this.hasMore = true;
+      this.albumList = [];
+      const postData = {
+        page: this.page,
+        count: this.count,
+        module_id: this.$route.query.moduleId
+      };
+      let { data } = await albumsListAllDetail(postData);
+      if (data.errcode === ERR_CODE) {
+        this.totalPage = data.data.total_page;
+        this.albumList = data.data.data;
+        this.$refs.suggest.scrollTo(0, 0);
+        this._checkMore(data.data);
+      }
+    },
+    listScroll() {
+      this.$emit("listScroll");
+    },
+    async getAlbumList() {
+      if (!this.hasMore) {
+        return;
+      }
+      const postData = {
+        page: this.page++,
+        count: this.count,
+        module_id: this.$route.query.moduleId
+      };
+      let { data } = await albumsListAllDetail(postData);
+      if (data.errcode === ERR_CODE) {
+        this.totalPage = data.data.total_page;
+        this.albumList = this.albumList.concat(data.data.data);
+        this._checkMore(data.data);
+      }
     }
   }
 };
@@ -201,8 +110,15 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 9999;
-  overflow-y: scroll;
+  overflow-y: hidden;
   background-color: #fff;
+  .child-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    overflow: hidden;
+  }
 }
 .muchAlbum-wrapper {
   padding: 0 14.5px;

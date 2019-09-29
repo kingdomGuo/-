@@ -21,6 +21,11 @@ export default new Router({
       name: "home",
       component: home
     },
+    // {
+    //   path: "muchAlbum",
+    //   name: "muchAlbum",
+    //   component: muchAlbum
+    // },
     {
       path: "/ucIndex",
       name: "ucIndex",

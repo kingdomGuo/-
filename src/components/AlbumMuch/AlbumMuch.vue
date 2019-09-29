@@ -1,8 +1,8 @@
 <template>
-  <div class="album-list" v-if="albumData && albumData.data.length > 0">
+  <div class="album-list van-clearfix" v-if="albumData && albumData.length > 0">
     <div
-      class="album-item"
-      v-for="(item, index) in albumData.data"
+      class="album-item van-clearfix"
+      v-for="(item, index) in albumData"
       :key="index"
       @click="clickAlbum(item)"
     >
@@ -11,7 +11,7 @@
           <img fit="cover" v-lazy="item.front_url" />
         </div>
         <div class="bottom-title">{{ item.name }}</div>
-        <div class="bottom-introduce">贝瓦儿歌</div>
+        <div class="bottom-introduce">{{ moduleTitle }}</div>
       </div>
     </div>
   </div>
@@ -25,14 +25,21 @@ export default {
   },
   props: {
     albumData: {
-      type: Object,
-      default: () => {}
+      type: Array,
+      default: () => []
+    },
+    moduleTitle: {
+      type: String,
+      default: ""
     }
   },
   data() {
     return {
       key: "value"
     };
+  },
+  mounted() {
+    console.log(this.albumData);
   },
   methods: {
     clickMuch(item) {
