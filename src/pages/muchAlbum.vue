@@ -1,24 +1,26 @@
 <template>
-  <div class="child-muchAlbul" @touchmove.prevent>
-    <scroll
-      ref="suggest"
-      class="child-content"
-      :data="albumList"
-      :pullup="pullup"
-      :beforeScroll="beforeScroll"
-      @scrollToEnd="getAlbumList"
-      @beforeScroll="listScroll"
-    >
-      <div class="muchAlbum-wrapper muchAlbum-content">
-        <div style="height:24px;"></div>
-        <album-much
-          :albumData="albumList"
-          :moduleTitle="query.moduleTitle"
-        ></album-much>
-        <loading v-show="hasMore" title=""></loading>
-      </div>
-    </scroll>
-  </div>
+  <transition name="slide">
+    <div class="child-muchAlbul" @touchmove.prevent>
+      <scroll
+        ref="suggest"
+        class="child-content"
+        :data="albumList"
+        :pullup="pullup"
+        :beforeScroll="beforeScroll"
+        @scrollToEnd="getAlbumList"
+        @beforeScroll="listScroll"
+      >
+        <div class="muchAlbum-wrapper muchAlbum-content">
+          <div style="height:24px;"></div>
+          <album-much
+            :albumData="albumList"
+            :moduleTitle="query.moduleTitle"
+          ></album-much>
+          <loading v-show="hasMore" title=""></loading>
+        </div>
+      </scroll>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -86,7 +88,7 @@ export default {
         return;
       }
       const postData = {
-        page: this.page++,
+        page: this.page + 1,
         count: this.count,
         module_id: this.$route.query.moduleId
       };
@@ -102,6 +104,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s ease;
+}
+.slide-enter,
+.slide-leave-to {
+  transform: translate3d(100%, 0, 0);
+}
 .child-muchAlbul {
   position: fixed;
   top: 0;

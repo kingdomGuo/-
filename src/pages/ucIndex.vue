@@ -10,12 +10,14 @@
     >
       <div>
         <!-- 轮播图 -->
-        <div class="swiper-wrapper" ref="swiperWrapper" indicator-color="blue">
-          <van-swipe :autoplay="3000">
+        <div class="swiper-wrapper" ref="swiperWrapper">
+          <van-swipe :autoplay="3000" indicator-color="blue">
             <van-swipe-item
-              @click="linkUrl(image.redirection)"
               v-for="(image, index) in images"
               :key="index"
+              @touchstart.prevent="middleTouchStart($event, image.redirection)"
+              @touchmove.prevent="middleTouchMove($event, image.redirection)"
+              @touchend="middleTouchEnd($event, image.redirection)"
             >
               <img :src="image.imgUrl" />
             </van-swipe-item>
@@ -50,6 +52,7 @@
               @clickAlbum="clickAlbum"
             ></album-list>
           </div>
+          <!-- longding加载 -->
           <div v-show="!otherALlData.length" class="loading-container">
             <loading></loading>
           </div>
@@ -96,6 +99,7 @@ export default {
       active: 0,
       scrollY: -1,
       show: false,
+      deltaX: 0,
       container: null,
       otherALlData: [],
       tabData: [
@@ -169,10 +173,39 @@ export default {
   },
   created() {
     this.listenScroll = true;
-    // this.leftListHeight = [];
+    this.touch = {};
     this.probeType = 3; // better-scroll 滚动组件 不截留
   },
   methods: {
+    // 轮播图判断是点击还是左右滑动
+    middleTouchEnd(e, url) {
+      if (this.deltaX === 0) {
+        window.location.href = url;
+      }
+    },
+    middleTouchMove(e) {
+      if (!this.touch.initiated) {
+        return;
+      }
+      const touch = e.touches[0];
+      const deltaX = touch.pageX - this.touch.startX;
+      const deltaY = touch.pageY - this.touch.startY;
+      if (Math.abs(deltaY) > Math.abs(deltaX)) {
+        return;
+      }
+      this.deltaX = deltaX;
+      if (!this.touch.moved) {
+        this.touch.moved = true;
+      }
+    },
+    middleTouchStart(e) {
+      this.touch.initiated = true;
+      // 用来判断是否是一次移动
+      this.touch.moved = false;
+      this.deltaX = 0;
+      const touch = e.touches[0];
+      this.touch.startX = touch.pageX;
+    },
     refresh() {
       this.$refs.scroll.refresh();
     },
@@ -207,8 +240,9 @@ export default {
         this.otherALlData = data.data;
       }
     },
-    linkUrl(url) {
-      window.location.href = url;
+    linkUrl(e, url) {
+      console.log(e, url);
+      // window.location.href = url;
     },
     onTabClick(name, title) {
       this.getCarousel();
