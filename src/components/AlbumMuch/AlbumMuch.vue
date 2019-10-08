@@ -1,5 +1,5 @@
 <template>
-  <div class="album-list van-clearfix" v-if="albumData && albumData.length > 0">
+  <div class="album-list van-clearfix">
     <div
       class="album-item van-clearfix"
       v-for="(item, index) in albumData"

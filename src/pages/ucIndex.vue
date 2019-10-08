@@ -80,7 +80,9 @@
         </div>
       </div>
     </scroll>
+    <!-- <keep-alive> -->
     <router-view></router-view>
+    <!-- </keep-alive> -->
   </div>
 </template>
 
@@ -215,7 +217,7 @@ export default {
     clickMuch(item) {
       this.$router.push({
         name: "muchAlbum",
-        path: `/ucIndex/muchAlbum`,
+        path: `/ucIndex/muchAlbum/item.mouldName`,
         query: {
           moduleTitle: item.mouldName,
           moduleId: item.id,

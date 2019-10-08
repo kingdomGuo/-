@@ -3,6 +3,7 @@ import Router from "vue-router";
 const ucIndex = () => import("@/pages/ucIndex.vue");
 const home = () => import("@pages/Home.vue");
 const muchAlbum = () => import("@pages/muchAlbum.vue");
+const songDetail = () => import("@pages/songDetail.vue");
 Vue.use(Router);
 
 export default new Router({
@@ -35,6 +36,11 @@ export default new Router({
           path: "muchAlbum",
           name: "muchAlbum",
           component: muchAlbum
+        },
+        {
+          path: "songDetail",
+          name: "songDetail",
+          component: songDetail
         }
       ]
     }

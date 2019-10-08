@@ -1,26 +1,26 @@
 <template>
-  <transition name="slide">
-    <div class="child-muchAlbul" @touchmove.prevent>
-      <scroll
-        ref="suggest"
-        class="child-content"
-        :data="albumList"
-        :pullup="pullup"
-        :beforeScroll="beforeScroll"
-        @scrollToEnd="getAlbumList"
-        @beforeScroll="listScroll"
-      >
-        <div class="muchAlbum-wrapper muchAlbum-content">
-          <div style="height:24px;"></div>
-          <album-much
-            :albumData="albumList"
-            :moduleTitle="query.moduleTitle"
-          ></album-much>
-          <loading v-show="hasMore" title=""></loading>
-        </div>
-      </scroll>
-    </div>
-  </transition>
+  <!-- <transition name="slide"> -->
+  <div class="child-muchAlbul" @touchmove.prevent>
+    <scroll
+      ref="suggest"
+      class="child-content"
+      :data="albumList"
+      :pullup="pullup"
+      :beforeScroll="beforeScroll"
+      @scrollToEnd="getAlbumList"
+      @beforeScroll="listScroll"
+    >
+      <div class="muchAlbum-wrapper muchAlbum-content" v-if="albumList">
+        <div style="height:24px;"></div>
+        <album-much
+          :albumData="albumList"
+          :moduleTitle="query.moduleTitle"
+        ></album-much>
+        <loading v-show="hasMore" title=""></loading>
+      </div>
+    </scroll>
+  </div>
+  <!-- </transition> -->
 </template>
 
 <script>
@@ -50,10 +50,11 @@ export default {
     };
   },
   created() {
-    this.init();
     this.query = this.$route.query;
   },
-  activated() {},
+  mounted() {
+    this.init();
+  },
   methods: {
     refresh() {
       this.$refs.suggest.refresh();
@@ -106,11 +107,14 @@ export default {
 <style lang="scss" scoped>
 .slide-enter-active,
 .slide-leave-active {
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
-.slide-enter,
+.slide-enter {
+  transform: translate3d(100%, 0, 0);
+}
 .slide-leave-to {
   transform: translate3d(100%, 0, 0);
+  position: absolute;
 }
 .child-muchAlbul {
   position: fixed;
