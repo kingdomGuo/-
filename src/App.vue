@@ -52,6 +52,14 @@ export default {
 .ucIndex-wrapper .stickyWrapper .van-hairline-unset--top-bottom::after {
   border-bottom-color: #ccc !important;
 }
+.detail-wrapper .all-wrapper .van-hairline--bottom::after,
+.detail-wrapper .song-list .van-hairline--bottom::after {
+  border-bottom-color: #ccc !important;
+}
+.detail-wrapper .song-list .van-hairline--bottom:last-child::after {
+  border-bottom-color: #fff !important;
+}
+
 .albulmlist-wrapper .van-icon-arrow {
   margin-top: 2px !important;
   margin-left: 3px !important;
