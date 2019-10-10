@@ -162,7 +162,7 @@ export default {
         width: 100px;
         float: left;
         margin-top: 10px;
-        background: #ccc;
+        background: #f2f2f2;
         border-radius: 4px;
         height: 30px;
         line-height: 30px;
@@ -196,7 +196,7 @@ export default {
       width: 100px;
       float: left;
       margin-top: 10px;
-      background: #ccc;
+      background: #f2f2f2;
       border-radius: 4px;
       height: 30px;
       line-height: 30px;

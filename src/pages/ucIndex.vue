@@ -216,8 +216,7 @@ export default {
     },
     clickMuch(item) {
       this.$router.push({
-        name: "muchAlbum",
-        path: `/ucIndex/muchAlbum/item.mouldName`,
+        path: `/ucIndex/muchAlbum`,
         query: {
           moduleTitle: item.mouldName,
           moduleId: item.id,
