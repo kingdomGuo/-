@@ -80,9 +80,9 @@
         </div>
       </div>
     </scroll>
-    <!-- <keep-alive> -->
-    <router-view></router-view>
-    <!-- </keep-alive> -->
+    <transition name="slide">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -212,7 +212,14 @@ export default {
       this.$refs.scroll.refresh();
     },
     clickItem(item) {
-      console.log(item);
+      this.$router.push({
+        path: `/ucIndex/muchAlbum`,
+        query: {
+          moduleTitle: item.mouldName,
+          moduleId: item.id,
+          albumType: item.albumType
+        }
+      });
     },
     clickMuch(item) {
       this.$router.push({
@@ -225,7 +232,14 @@ export default {
       });
     },
     clickAlbum(item) {
-      console.log(item);
+      this.$router.push({
+        path: `/ucIndex/songDetail`,
+        query: {
+          moduleTitle: item.mouldName,
+          moduleId: item.id,
+          albumType: item.albumType
+        }
+      });
     },
     // 获取轮播图
     async getCarousel() {
@@ -268,6 +282,14 @@ export default {
   width: 100%;
   margin: 0 auto;
   max-width: 540px;
+  .slide-enter-active,
+  .slide-leave-active {
+    transition: all 0.3s ease;
+  }
+  .slide-enter,
+  .slide-leave-to {
+    transform: translate3d(100%, 0, 0);
+  }
   .listAlbum-content {
     position: relative;
     width: 100%;
@@ -310,7 +332,7 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 9999;
+    z-index: 90;
   }
   .loading-container {
     position: absolute;
