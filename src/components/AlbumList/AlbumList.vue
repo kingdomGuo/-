@@ -11,7 +11,7 @@
         class="album-item"
         v-for="item in albumData.data"
         :key="item.id"
-        @click="clickAlbum(item)"
+        @click="clickAlbum(item, albumData)"
       >
         <div class="album-padding">
           <div class="top-img">
@@ -47,8 +47,8 @@ export default {
     clickMuch(item) {
       this.$emit("clickMuch", item);
     },
-    clickAlbum(item) {
-      this.$emit("clickAlbum", item);
+    clickAlbum(item, albumData) {
+      this.$emit("clickAlbum", item, albumData);
     }
   }
 };

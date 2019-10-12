@@ -231,13 +231,17 @@ export default {
         }
       });
     },
-    clickAlbum(item) {
+    clickAlbum(item, albumData) {
+      console.log(item, albumData);
       this.$router.push({
         path: `/ucIndex/songDetail`,
         query: {
-          moduleTitle: item.mouldName,
-          moduleId: item.id,
-          albumType: item.albumType
+          front_url: item.front_url,
+          id: item.id,
+          name: item.name,
+          source: item.source,
+          type: item.type,
+          information: albumData.albumType
         }
       });
     },

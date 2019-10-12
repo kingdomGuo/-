@@ -1,5 +1,4 @@
 <template>
-  <!-- <transition name="slide"> -->
   <div :class="['child-muchAlbul']" @touchmove.prevent>
     <scroll
       ref="suggest"
@@ -20,7 +19,6 @@
       </div>
     </scroll>
   </div>
-  <!-- </transition> -->
 </template>
 
 <script>

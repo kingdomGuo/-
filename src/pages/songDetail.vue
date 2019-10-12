@@ -1,19 +1,10 @@
 <template>
   <div class="detail-wrapper">
     <div class="detail-top" ref="bgImage">
-      <div class="bg-image" ref="bgImageHeight">
+      <div class="bg-image" :style="bgStyle" ref="bgImageHeight">
         <div class="filter"></div>
-        <img
-          class="song-img"
-          src="http://img.ilisten.idaddy.cn/b/7/gd537l54.jpg"
-        />
-        <div class="song-title">拇指姑娘（卉卉阿姨）</div>
-      </div>
-      <div class="all-wrapper" ref="allHeight">
-        <div class="all-song van-hairline--bottom">
-          <div class="left">全部播放</div>
-          <div class="right">32首</div>
-        </div>
+        <img class="song-img" :src="query.front_url" />
+        <div class="song-title">{{ query.name }}</div>
       </div>
     </div>
     <div class="bg-layer" ref="layer"></div>
@@ -21,25 +12,39 @@
     <scroll
       class="list"
       ref="list"
-      :data="number"
+      :data="songList"
       @scroll="scroll"
+      :pullup="pullup"
+      :beforeScroll="beforeScroll"
+      @beforeScroll="listScroll"
+      @scrollToEnd="getSongList"
       :listen-scroll="listenScroll"
       :probe-type="probeType"
     >
       <div>
+        <div class="all-wrapper" ref="allHeight">
+          <div class="all-song van-hairline--bottom">
+            <div class="left">全部播放</div>
+            <div class="right">{{ songList.length }}集</div>
+          </div>
+        </div>
         <div class="song-list">
           <div
             class="song-item van-hairline--bottom"
-            v-for="index in number"
+            v-for="(item, index) in songList"
             :key="index"
           >
-            <div class="left">{{ index }}</div>
+            <div class="left">{{ index + 1 }}</div>
             <div class="right">
-              <div class="top">城南花已开</div>
-              <div class="bottom">三亩地>城南花已开</div>
+              <div class="top">{{ item.musicTitle }}</div>
+              <div class="bottom">{{ item.duration | formatTime }}</div>
             </div>
           </div>
         </div>
+        <loading v-show="hasMore" title=""></loading>
+      </div>
+      <div v-show="!songList.length" class="loading-container">
+        <loading></loading>
       </div>
     </scroll>
   </div>
@@ -47,21 +52,97 @@
 
 <script>
 import Scroll from "@components/Scroll/Scroll.vue";
+import loading from "@components/loading/loading.vue";
+import { albumsBrowse } from "@/api/api.index.js";
+import { ERR_CODE } from "@/utils/config.js";
 export default {
   components: {
-    Scroll: Scroll
+    Scroll: Scroll,
+    loading: loading
   },
   data() {
     return {
-      number: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      scrollY: 0
+      scrollY: 0,
+      hasMore: false,
+      beforeScroll: true,
+      songList: [],
+      pullup: true,
+      page: 1,
+      count: 20,
+      query: {}
     };
+  },
+  filters: {
+    formatTime: seconds => {
+      if (!seconds) return "00:00";
+      let m, s;
+      m = Math.floor(seconds / 60);
+      m = m.toString().length === 1 ? "0" + m : m;
+      s = Math.floor(seconds - 60 * m);
+      s = s.toString().length === 1 ? "0" + s : s;
+      return m + ":" + s;
+    }
   },
   created() {
     this.probeType = 3;
     this.listenScroll = true;
+    this.query = this.$route.query;
+  },
+  computed: {
+    bgStyle() {
+      return `background-image:url(${this.query.front_url})`;
+    }
   },
   methods: {
+    async init() {
+      this.page = 1;
+      this.hasMore = true;
+      this.songList = [];
+      this.$refs.list.scrollTo(0, 0);
+      const postData = {
+        album_source: this.query.source,
+        album_id: this.query.id,
+        page: this.page,
+        count: this.count,
+        album_type: this.query.type,
+        information: this.query.information
+      };
+      let { data } = await albumsBrowse(postData);
+      if (data.errcode === ERR_CODE) {
+        this.songList = data.data.data;
+        this._checkMore(data.data);
+      }
+    },
+    async getSongList() {
+      if (!this.hasMore) {
+        return;
+      }
+      this.page = this.page + 1;
+      const postData = {
+        album_source: this.query.source,
+        album_id: this.query.id,
+        page: this.page,
+        count: this.count,
+        album_type: this.query.type,
+        information: this.query.information
+      };
+      let { data } = await albumsBrowse(postData);
+      if (data.errcode === ERR_CODE) {
+        this.songList = this.songList.concat(data.data.data);
+        this._checkMore(data.data);
+      }
+    },
+    _checkMore(data) {
+      if (data.data.length <= 0 || data.data.length < this.count) {
+        this.hasMore = false;
+      }
+    },
+    refresh() {
+      this.$refs.suggest.refresh();
+    },
+    listScroll() {
+      this.$emit("listScroll");
+    },
     scroll(pos) {
       this.scrollY = pos.y;
     }
@@ -69,26 +150,30 @@ export default {
   mounted() {
     this.imageHeight = this.$refs.bgImageHeight.clientHeight;
     this.allHeight = this.$refs.allHeight.clientHeight;
-    this.$refs.list.$el.style.top = `${this.imageHeight + this.allHeight}px`;
+    this.$refs.list.$el.style.top = `${this.imageHeight}px`;
+    this.init();
   },
   watch: {
     scrollY(newVal) {
-      if (newVal === 0) {
-        return;
-      }
+      // if (newVal === 0) {
+      //   return;
+      // }
       this.$refs.bgImage.style["transform"] = `translate3d(0,${newVal}px,0)`;
       let height = parseInt(this.imageHeight) + parseInt(newVal);
-      let allHeight = parseInt(this.allHeight);
       if (newVal >= 0) {
         this.$refs.bgImageHeight.style.height = `${height}px`;
-        this.$refs.bgImage.style.height = `${height + allHeight}px`;
+        this.$refs.bgImage.style.height = `${height}px`;
+        this.$refs.list.$el.style.top = `${this.imageHeight}px`;
         if (this.$refs.layer) {
           this.$refs.bgImage.style["transform"] = `translate3d(0,0,0)`;
-          this.$refs.layer.style.display = `none`;
           this.$refs.bgImage.style.zIndex = 10;
         }
       } else {
         this.$refs.bgImage.style.zIndex = 0;
+        this.$refs.list.$el.style.top = `${this.imageHeight}px`;
+        if (this.$refs.bgImage.style.height) {
+          this.$refs.list.$el.style.top = this.$refs.bgImage.style.height;
+        }
       }
     }
   }
@@ -113,6 +198,12 @@ export default {
   z-index: 130;
   overflow-y: hidden;
   background-color: #fff;
+  .loading-container {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
   .bg-image {
     width: 100%;
     height: 218px;
@@ -232,7 +323,8 @@ export default {
         flex: 1;
         flex: 0 0 30px;
         width: 30px;
-        text-align: left;
+        text-align: center;
+        margin-right: 10px;
         -webkit-box-orient: vertical;
         -webkit-box-pack: center;
         -ms-flex-pack: center;

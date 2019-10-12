@@ -47,3 +47,28 @@ export function albumsListAllDetail(query) {
     params: query
   });
 }
+
+// 首页专辑详情和专辑的歌曲列表
+export function albumsBrowse(query) {
+  // query = {
+  //   app_id: APIkey,
+  //   user_id: 1000009738, //JSON.parse(localStorage.getItem("outh")).userId,
+  //   type: query.type,
+  //   page: query.page,
+  //   device_id: query.device_id,
+  //   album_id: query.album_id,
+  //   album_source: query.album_source,
+  //   album_type: query.album_type,
+  //   information: query.information,
+  //   count: query.count
+  // };
+  if (query) {
+    query.user_id = 1000009738;
+    query.app_id = APIkey;
+  }
+  return fetch({
+    url: "/mobile-app/api/resource/album/browse",
+    method: "get",
+    params: query
+  });
+}
