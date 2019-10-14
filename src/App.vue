@@ -84,4 +84,34 @@ export default {
   width: 22px !important;
   height: 22px !important;
 }
+.ucIndex-wrapper .bannerBox {
+  height: 200px;
+}
+.ucIndex-wrapper .swiper-container {
+  width: 100%;
+  height: 100%;
+}
+.ucIndex-wrapper .swiper-container .swiper-wrapper .swiper-slide {
+  width: 80% !important;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.ucIndex-wrapper .swiper-container .swiper-wrapper .swiper-slide img {
+  width: 100%;
+  height: 200px;
+  border-radius: 10px;
+}
+.swiper-container .swiper-wrapper .swiper-slide-prev,
+.swiper-container .swiper-wrapper .swiper-slide-next {
+  height: 160px !important;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+.swiper-container .swiper-wrapper .swiper-slide-prev img,
+.swiper-container .swiper-wrapper .swiper-slide-next img {
+  width: 100%;
+  border-radius: 10px;
+  height: 100%;
+}
 </style>

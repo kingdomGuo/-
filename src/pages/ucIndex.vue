@@ -10,7 +10,7 @@
     >
       <div>
         <!-- 轮播图 -->
-        <div class="swiper-wrapper" ref="swiperWrapper">
+        <!-- <div class="swiper-wrapper" ref="swiperWrapper">
           <van-swipe :autoplay="3000" indicator-color="blue">
             <van-swipe-item
               v-for="(image, index) in images"
@@ -22,8 +22,9 @@
               <img :src="image.imgUrl" />
             </van-swipe-item>
           </van-swipe>
-        </div>
+        </div> -->
         <!-- 吸顶 -->
+        <slide :banners="images"></slide>
         <div ref="container">
           <div class="stickyWrapper first-stickTb van-hairline--bottom">
             <van-tabs
@@ -94,6 +95,7 @@ import Scroll from "@components/Scroll/Scroll.vue";
 import loading from "@components/loading/loading.vue";
 import NavBar from "@components/NavBar/NavBar.vue";
 import AlbumList from "@components/AlbumList/AlbumList.vue";
+import slide from "@components/slide/slide.vue";
 export default {
   name: "ucIndex",
   data() {
@@ -127,6 +129,7 @@ export default {
     [Sticky.name]: Sticky,
     Scroll: Scroll,
     loading: loading,
+    slide: slide,
     NavBar: NavBar,
     AlbumList: AlbumList
   },
@@ -141,37 +144,36 @@ export default {
     this.getCarousel();
   },
   watch: {
-    scrollY(newY) {
-      if (newY > 0) {
-        return;
-      }
-      if (
-        document.querySelector(".first-stickTb .van-tabs__line") &&
-        document.querySelector(".first-stickTb .van-tabs__line").style
-      ) {
-        const first = document.querySelector(".first-stickTb .van-tabs__line")
-          .style.backgroundColor;
-        const second = document.querySelector(".first-stickTb .van-tabs__line")
-          .style.width;
-        const third = document.querySelector(".first-stickTb .van-tabs__line")
-          .style.transform;
-        document.querySelector(
-          ".second-stickTb .van-tabs__line"
-        ).style.width = second;
-        document.querySelector(
-          ".second-stickTb .van-tabs__line"
-        ).style.backgroundColor = first;
-        document.querySelector(
-          ".second-stickTb .van-tabs__line"
-        ).style.transform = third;
-      }
-
-      if (Math.abs(newY) > this.$refs.swiperWrapper.clientHeight) {
-        this.show = true;
-      } else {
-        this.show = false;
-      }
-    }
+    // scrollY(newY) {
+    //   if (newY > 0) {
+    //     return;
+    //   }
+    //   if (
+    //     document.querySelector(".first-stickTb .van-tabs__line") &&
+    //     document.querySelector(".first-stickTb .van-tabs__line").style
+    //   ) {
+    //     const first = document.querySelector(".first-stickTb .van-tabs__line")
+    //       .style.backgroundColor;
+    //     const second = document.querySelector(".first-stickTb .van-tabs__line")
+    //       .style.width;
+    //     const third = document.querySelector(".first-stickTb .van-tabs__line")
+    //       .style.transform;
+    //     document.querySelector(
+    //       ".second-stickTb .van-tabs__line"
+    //     ).style.width = second;
+    //     document.querySelector(
+    //       ".second-stickTb .van-tabs__line"
+    //     ).style.backgroundColor = first;
+    //     document.querySelector(
+    //       ".second-stickTb .van-tabs__line"
+    //     ).style.transform = third;
+    //   }
+    //   if (Math.abs(newY) > this.$refs.swiperWrapper.clientHeight) {
+    //     this.show = true;
+    //   } else {
+    //     this.show = false;
+    //   }
+    // }
   },
   created() {
     this.listenScroll = true;
@@ -312,22 +314,51 @@ export default {
     padding-top: 36px;
     margin-bottom: 13px;
   }
+  // .bannerBox {
+  //   position: relative;
+  //   height: 300px;
+  // }
+  // .swiper-container {
+  //   width: 1000px;
+  //   height: 100%;
+  // }
+  // .swiper-container .swiper-wrapper .swiper-slide {
+  //   width: 80% !important;
+  //   overflow: hidden;
+  //   display: flex;
+  //   align-items: center;
+  // }
+  // .swiper-container .swiper-wrapper .swiper-slide img {
+  //   width: 100%;
+  //   height: 300px;
+  //   border-radius: 5px;
+  // }
+  // .swiper-container .swiper-wrapper .swiper-slide-prev,
+  // .swiper-container .swiper-wrapper .swiper-slide-next {
+  //   height: 260px !important;
+  //   margin-top: 20px;
+  // }
+  // .swiper-container .swiper-wrapper .swiper-slide-prev img,
+  // .swiper-container .swiper-wrapper .swiper-slide-next img {
+  //   width: 100%;
+  //   height: 100%;
+  // }
   .albumList {
     padding: 0 15px;
     overflow: hidden;
   }
-  .swiper-wrapper {
-    padding: 14px 15px 14px;
-    cursor: pointer;
-    .van-swipe img {
-      display: block;
-      box-sizing: border-box;
-      width: 100%;
-      border-radius: 10px;
-      background-color: #fff;
-      pointer-events: none;
-    }
-  }
+  // .swiper-wrapper {
+  //   padding: 14px 15px 14px;
+  //   cursor: pointer;
+  //   .van-swipe img {
+  //     display: block;
+  //     box-sizing: border-box;
+  //     width: 100%;
+  //     border-radius: 10px;
+  //     background-color: #fff;
+  //     pointer-events: none;
+  //   }
+  // }
   .stickyWrapper {
     box-sizing: border-box;
   }
