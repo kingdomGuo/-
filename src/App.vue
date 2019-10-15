@@ -85,26 +85,26 @@ export default {
   height: 22px !important;
 }
 .ucIndex-wrapper .bannerBox {
-  height: 200px;
+  height: 160px;
 }
 .ucIndex-wrapper .swiper-container {
   width: 100%;
   height: 100%;
 }
 .ucIndex-wrapper .swiper-container .swiper-wrapper .swiper-slide {
-  width: 80% !important;
+  width: 85% !important;
   overflow: hidden;
   display: flex;
   align-items: center;
 }
 .ucIndex-wrapper .swiper-container .swiper-wrapper .swiper-slide img {
   width: 100%;
-  height: 200px;
+  height: 160px;
   border-radius: 10px;
 }
 .swiper-container .swiper-wrapper .swiper-slide-prev,
 .swiper-container .swiper-wrapper .swiper-slide-next {
-  height: 160px !important;
+  height: 120px !important;
   border-radius: 10px;
   margin-top: 20px;
 }

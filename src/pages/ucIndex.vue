@@ -24,7 +24,8 @@
           </van-swipe>
         </div> -->
         <!-- 吸顶 -->
-        <slide :banners="images"></slide>
+        <div ref="swiperWrapper"><slide :banners="images"></slide></div>
+
         <div ref="container">
           <div class="stickyWrapper first-stickTb van-hairline--bottom">
             <van-tabs
@@ -144,36 +145,36 @@ export default {
     this.getCarousel();
   },
   watch: {
-    // scrollY(newY) {
-    //   if (newY > 0) {
-    //     return;
-    //   }
-    //   if (
-    //     document.querySelector(".first-stickTb .van-tabs__line") &&
-    //     document.querySelector(".first-stickTb .van-tabs__line").style
-    //   ) {
-    //     const first = document.querySelector(".first-stickTb .van-tabs__line")
-    //       .style.backgroundColor;
-    //     const second = document.querySelector(".first-stickTb .van-tabs__line")
-    //       .style.width;
-    //     const third = document.querySelector(".first-stickTb .van-tabs__line")
-    //       .style.transform;
-    //     document.querySelector(
-    //       ".second-stickTb .van-tabs__line"
-    //     ).style.width = second;
-    //     document.querySelector(
-    //       ".second-stickTb .van-tabs__line"
-    //     ).style.backgroundColor = first;
-    //     document.querySelector(
-    //       ".second-stickTb .van-tabs__line"
-    //     ).style.transform = third;
-    //   }
-    //   if (Math.abs(newY) > this.$refs.swiperWrapper.clientHeight) {
-    //     this.show = true;
-    //   } else {
-    //     this.show = false;
-    //   }
-    // }
+    scrollY(newY) {
+      if (newY > 0) {
+        return;
+      }
+      if (
+        document.querySelector(".first-stickTb .van-tabs__line") &&
+        document.querySelector(".first-stickTb .van-tabs__line").style
+      ) {
+        const first = document.querySelector(".first-stickTb .van-tabs__line")
+          .style.backgroundColor;
+        const second = document.querySelector(".first-stickTb .van-tabs__line")
+          .style.width;
+        const third = document.querySelector(".first-stickTb .van-tabs__line")
+          .style.transform;
+        document.querySelector(
+          ".second-stickTb .van-tabs__line"
+        ).style.width = second;
+        document.querySelector(
+          ".second-stickTb .van-tabs__line"
+        ).style.backgroundColor = first;
+        document.querySelector(
+          ".second-stickTb .van-tabs__line"
+        ).style.transform = third;
+      }
+      if (Math.abs(newY) > this.$refs.swiperWrapper.clientHeight) {
+        this.show = true;
+      } else {
+        this.show = false;
+      }
+    }
   },
   created() {
     this.listenScroll = true;
@@ -251,7 +252,7 @@ export default {
     async getCarousel() {
       let { data } = await carousel({ page: "index" });
       if (data.errcode === ERR_CODE) {
-        this.images = [data.data[0], ...data.data];
+        this.images = data.data;
       }
     },
     // 获取不同类型的专辑list

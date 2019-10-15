@@ -3,8 +3,10 @@
     <div class="detail-top" ref="bgImage">
       <div class="bg-image" :style="bgStyle" ref="bgImageHeight">
         <div class="filter"></div>
-        <img class="song-img" :src="query.front_url" />
-        <div class="song-title">{{ query.name }}</div>
+        <div class="song-top-wrapper">
+          <img class="song-img" :src="query.front_url" />
+          <div class="song-title">{{ query.name }}</div>
+        </div>
       </div>
     </div>
     <div class="bg-layer" ref="layer"></div>
@@ -211,6 +213,7 @@ export default {
     background-image: url(http://img.ilisten.idaddy.cn/b/7/gd537l54.jpg);
     transform-origin: top;
     background-size: cover;
+    background-position: center center;
     .filter {
       top: 0;
       left: 0;
@@ -220,21 +223,29 @@ export default {
       background: rgba(7, 17, 27, 0.4);
       transform: none;
     }
+    .song-top-wrapper {
+      height: 124px;
+      position: absolute;
+      z-index: 2;
+      width: 100%;
+      left: 20px;
+      bottom: 18px;
+    }
     .song-img {
       width: 124px;
       height: 124px;
-      z-index: 2;
-      position: absolute;
-      left: 20px;
-      top: 76px;
       border-radius: 15px;
+      float: left;
     }
     .song-title {
       width: 198px;
-      z-index: 2;
-      position: absolute;
-      top: 82px;
-      right: 20px;
+      // z-index: 2;
+      // position: absolute;
+      // top: 82px;
+      // right: 20px;
+      float: left;
+      margin-top: 8px;
+      margin-left: 13px;
       font-size: 18px;
       line-height: 18px;
       font-family: NotoSansHans-Regular, NotoSansHans;
