@@ -29,8 +29,11 @@
             <div class="icon-wrapper" ref="iconWrapper">
               <div class="left"></div>
               <div class="middle">
-                <span class="deviceType-wrapper">{{ deviceType }}</span
-                ><van-icon
+                {{ deviceType
+                }}<span
+                  style="width: 13px;display:inline-block;height:10px"
+                ></span>
+                <van-icon
                   class="icon-down"
                   name="arrow-down"
                   size="17"
@@ -348,27 +351,35 @@ export default {
         .middle {
           flex: 1;
           text-align: center;
-          margin-top: 10px;
-          .deviceType-wrapper {
-            font-size: 17px;
-            height: 17px;
-            line-height: 17px;
-            display: inline-block;
-            margin: 0;
-            color: rgba(255, 255, 255, 1);
-            margin-right: 13px;
-          }
+          margin-left: -17px;
+          // margin-top: 10px;
+          // .deviceType-wrapper {
+          font-size: 17px;
+          height: 17px;
+          line-height: 17px;
+          // display: inline-block;
+          // margin: 0;
+          margin-top: 15px;
+          color: rgba(255, 255, 255, 1);
+
+          //}
           .icon-down {
             // margin-top: 2px;
             position: absolute;
-            top: 15px;
+            // margin-left: 13px;
+            top: 14px;
           }
         }
         .right {
           flex: 0 0 24px;
           height: 24px;
+          margin: 0px;
+          line-height: 0px;
           margin-right: 12px;
           margin-top: 12px;
+          .van-icon-search {
+            height: 100%;
+          }
         }
       }
     }

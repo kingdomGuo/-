@@ -6,6 +6,7 @@
         placeholder="歌曲/歌手/专辑/有声音频"
         show-action
         @search="onSearch"
+        @input="inputValue"
         @cancel="onCancel"
       />
     </div>
@@ -14,7 +15,7 @@
         <div class="left">历史搜索</div>
         <div class="right">清除</div>
       </div>
-      <div class="search-item" v-for="index in 10" :key="index">
+      <div class="search-item" v-for="index in 10" :key="index" @click="itemsl">
         周接口周r1d
       </div>
     </div>
@@ -32,11 +33,21 @@ export default {
       value: ""
     };
   },
+  mounted() {
+    document.querySelector(".search-wrapper .van-field__control").focus();
+  },
   methods: {
     onCancel() {
       this.$router.back();
     },
-    onSearch() {}
+    onSearch() {},
+    inputValue(value) {
+      this.value = value;
+      console.log(value);
+    },
+    itemsl() {
+      this.value = "dddddd";
+    }
   }
 };
 </script>

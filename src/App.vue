@@ -132,4 +132,8 @@ export default {
   font-weight: 400 !important;
   color: #fff;
 }
+.search-bar .van-cell--borderless {
+  line-height: 0;
+  padding-top: 8px !important;
+}
 </style>
