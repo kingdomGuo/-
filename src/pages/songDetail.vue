@@ -239,10 +239,6 @@ export default {
     }
     .song-title {
       width: 198px;
-      // z-index: 2;
-      // position: absolute;
-      // top: 82px;
-      // right: 20px;
       float: left;
       margin-top: 8px;
       margin-left: 13px;

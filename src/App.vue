@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <tab-bar
+    <!-- <tab-bar
       v-if="currentPath == '/ucIndex' || currentPath == '/home'"
-    ></tab-bar>
+    ></tab-bar> -->
     <keep-alive>
       <router-view />
     </keep-alive>
@@ -50,14 +50,14 @@ export default {
 
 .ucIndex-wrapper .stickyWrapper .van-hairline--top-bottom::after,
 .ucIndex-wrapper .stickyWrapper .van-hairline-unset--top-bottom::after {
-  border-bottom-color: #ccc !important;
+  border-bottom-color: rgba(225, 225, 225, 1) !important;
 }
 .detail-wrapper .all-wrapper .van-hairline--bottom::after,
 .detail-wrapper .song-list .van-hairline--bottom::after {
-  border-bottom-color: #ccc !important;
+  border-bottom-color: rgba(225, 225, 225, 1) !important;
 }
 .detail-wrapper .song-list .van-hairline--bottom:last-child::after {
-  border-bottom-color: #fff !important;
+  border-bottom-color: rgba(225, 225, 225, 1) !important;
 }
 
 .albulmlist-wrapper .van-icon-arrow {
@@ -113,5 +113,23 @@ export default {
   width: 100%;
   border-radius: 10px;
   height: 100%;
+}
+.search-bar .van-search {
+  background: #eb5f58 !important;
+}
+.search-bar .van-cell__value--alone {
+  font-size: 14px !important;
+  font-family: NotoSansHans-Regular, NotoSansHans !important;
+  font-weight: 400 !important;
+  color: rgba(181, 181, 181, 1) !important;
+}
+.search-bar .van-search__content {
+  border-radius: 18px !important;
+}
+.search-bar .van-search__action {
+  font-size: 15px !important;
+  font-family: NotoSansHans-Regular, NotoSansHans !important;
+  font-weight: 400 !important;
+  color: #fff;
 }
 </style>

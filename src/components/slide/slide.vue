@@ -51,7 +51,7 @@ export default {
         },
         on: {
           slideChangeTransitionStart: function() {
-            console.log("dd");
+            // console.log("dd");
           }
         }
       }

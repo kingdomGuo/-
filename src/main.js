@@ -9,6 +9,7 @@ import "@sass/index.scss";
 import store from "./store/index";
 import Router from "vue-router";
 import "swiper/css/swiper.css";
+import { Icon } from "vant";
 
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {
@@ -16,6 +17,7 @@ Router.prototype.push = function push(location) {
 };
 // import "amfe-flexible";
 Vue.use(VueAwesomeSwiper);
+Vue.use(Icon);
 // 300ms延迟
 fastclick.attach(document.body);
 Vue.config.productionTip = false;

@@ -24,7 +24,33 @@
           </van-swipe>
         </div> -->
         <!-- 吸顶 -->
-        <div ref="swiperWrapper"><slide :banners="images"></slide></div>
+        <div class="top-bg" ref="topWrapper">
+          <div class="setter-bg">
+            <div class="icon-wrapper" ref="iconWrapper">
+              <div class="left"></div>
+              <div class="middle">
+                <span class="deviceType-wrapper">{{ deviceType }}</span
+                ><van-icon
+                  class="icon-down"
+                  name="arrow-down"
+                  size="17"
+                  color="#fff"
+                />
+              </div>
+              <div class="right">
+                <van-icon
+                  @click="linkSearch"
+                  name="search"
+                  size="24"
+                  color="#fff"
+                />
+              </div>
+            </div>
+          </div>
+          <div ref="swiperWrapper" class="swiperWrapper">
+            <slide :banners="images"></slide>
+          </div>
+        </div>
 
         <div ref="container">
           <div class="stickyWrapper first-stickTb van-hairline--bottom">
@@ -103,6 +129,7 @@ export default {
     return {
       active: 0,
       scrollY: -1,
+      deviceType: "未绑定设备",
       show: false,
       deltaX: 0,
       container: null,
@@ -135,10 +162,10 @@ export default {
     AlbumList: AlbumList
   },
   beforeCreate() {
-    document.title = "首页";
+    document.title = "精选社区";
   },
   activated() {
-    document.title = "首页";
+    document.title = "精选社区";
   },
   mounted() {
     this.getBatchIndexList();
@@ -169,7 +196,7 @@ export default {
           ".second-stickTb .van-tabs__line"
         ).style.transform = third;
       }
-      if (Math.abs(newY) > this.$refs.swiperWrapper.clientHeight) {
+      if (Math.abs(newY) > this.$refs.topWrapper.clientHeight) {
         this.show = true;
       } else {
         this.show = false;
@@ -182,35 +209,35 @@ export default {
     this.probeType = 3; // better-scroll 滚动组件 不截留
   },
   methods: {
-    // 轮播图判断是点击还是左右滑动
-    middleTouchEnd(e, url) {
-      if (this.deltaX === 0) {
-        window.location.href = url;
-      }
-    },
-    middleTouchMove(e) {
-      if (!this.touch.initiated) {
-        return;
-      }
-      const touch = e.touches[0];
-      const deltaX = touch.pageX - this.touch.startX;
-      const deltaY = touch.pageY - this.touch.startY;
-      if (Math.abs(deltaY) > Math.abs(deltaX)) {
-        return;
-      }
-      this.deltaX = deltaX;
-      if (!this.touch.moved) {
-        this.touch.moved = true;
-      }
-    },
-    middleTouchStart(e) {
-      this.touch.initiated = true;
-      // 用来判断是否是一次移动
-      this.touch.moved = false;
-      this.deltaX = 0;
-      const touch = e.touches[0];
-      this.touch.startX = touch.pageX;
-    },
+    // // 轮播图判断是点击还是左右滑动
+    // middleTouchEnd(e, url) {
+    //   if (this.deltaX === 0) {
+    //     window.location.href = url;
+    //   }
+    // },
+    // middleTouchMove(e) {
+    //   if (!this.touch.initiated) {
+    //     return;
+    //   }
+    //   const touch = e.touches[0];
+    //   const deltaX = touch.pageX - this.touch.startX;
+    //   const deltaY = touch.pageY - this.touch.startY;
+    //   if (Math.abs(deltaY) > Math.abs(deltaX)) {
+    //     return;
+    //   }
+    //   this.deltaX = deltaX;
+    //   if (!this.touch.moved) {
+    //     this.touch.moved = true;
+    //   }
+    // },
+    // middleTouchStart(e) {
+    //   this.touch.initiated = true;
+    //   // 用来判断是否是一次移动
+    //   this.touch.moved = false;
+    //   this.deltaX = 0;
+    //   const touch = e.touches[0];
+    //   this.touch.startX = touch.pageX;
+    // },
     refresh() {
       this.$refs.scroll.refresh();
     },
@@ -235,7 +262,6 @@ export default {
       });
     },
     clickAlbum(item, albumData) {
-      console.log(item, albumData);
       this.$router.push({
         path: `/ucIndex/songDetail`,
         query: {
@@ -247,6 +273,10 @@ export default {
           information: albumData.albumType
         }
       });
+    },
+    linkSearch() {
+      console.log("33");
+      this.$router.push({ path: `/ucIndex/search` });
     },
     // 获取轮播图
     async getCarousel() {
@@ -261,10 +291,6 @@ export default {
       if (data.errcode === ERR_CODE) {
         this.otherALlData = data.data;
       }
-    },
-    linkUrl(e, url) {
-      console.log(e, url);
-      // window.location.href = url;
     },
     onTabClick(name, title) {
       this.getCarousel();
@@ -282,9 +308,9 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  bottom: 56px;
-  bottom: calc(56px + constant(safe-area-inset-bottom));
-  bottom: calc(56px + env(safe-area-inset-bottom));
+  bottom: 0px;
+  // bottom: calc(56px + constant(safe-area-inset-bottom));
+  // bottom: calc(56px + env(safe-area-inset-bottom));
   right: 0;
   width: 100%;
   margin: 0 auto;
@@ -296,6 +322,58 @@ export default {
   .slide-enter,
   .slide-leave-to {
     transform: translate3d(100%, 0, 0);
+  }
+  .top-bg {
+    position: relative;
+    padding-bottom: 14px;
+    padding-top: 56px;
+    .setter-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: rgba(235, 95, 88, 1);
+      .icon-wrapper {
+        height: 56px;
+        display: flex;
+        .left {
+          height: 32px;
+          flex: 0 0 32px;
+          background: gray;
+          margin-left: 16px;
+          margin-top: 6px;
+          border-radius: 50%;
+        }
+        .middle {
+          flex: 1;
+          text-align: center;
+          margin-top: 10px;
+          .deviceType-wrapper {
+            font-size: 17px;
+            height: 17px;
+            line-height: 17px;
+            display: inline-block;
+            margin: 0;
+            color: rgba(255, 255, 255, 1);
+            margin-right: 13px;
+          }
+          .icon-down {
+            // margin-top: 2px;
+            position: absolute;
+            top: 15px;
+          }
+        }
+        .right {
+          flex: 0 0 24px;
+          height: 24px;
+          margin-right: 12px;
+          margin-top: 12px;
+        }
+      }
+    }
+    .swiperWrapper {
+    }
   }
   .listAlbum-content {
     position: relative;
