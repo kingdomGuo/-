@@ -5,7 +5,6 @@ import "@common/js/rem";
 import fastclick from "fastclick";
 import VueLazyload from "vue-lazyload";
 import VueAwesomeSwiper from "vue-awesome-swiper";
-import "@sass/index.scss";
 import store from "./store/index";
 import Router from "vue-router";
 import "swiper/css/swiper.css";

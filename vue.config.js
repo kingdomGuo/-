@@ -18,7 +18,7 @@ module.exports = {
     modules: false
     // loaderOptions: {
     //   sass: {
-    //     prependData: `@import "@/common/css/index.scss"`
+    //     prependData: `@import "~@/common/css/index.scss"`
     //   }
     // }
   },

@@ -98,7 +98,7 @@ export default {
   methods: {
     async init() {
       this.page = 1;
-      this.hasMore = true;
+      // this.hasMore = true;
       this.songList = [];
       this.$refs.list.scrollTo(0, 0);
       const postData = {
@@ -137,6 +137,8 @@ export default {
     _checkMore(data) {
       if (data.data.length <= 0 || data.data.length < this.count) {
         this.hasMore = false;
+      } else {
+        this.hasMore = true;
       }
     },
     refresh() {

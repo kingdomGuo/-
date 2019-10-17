@@ -65,7 +65,7 @@
 }
 
 
-.tabBar-wrapper .van-hairline--top-bottom::after, .van-hairline-unset--top-bottom::after {
+/* .tabBar-wrapper .van-hairline--top-bottom::after, .van-hairline-unset--top-bottom::after {
   border-top-color: #ccc !important;
 }
 .tabBar-wrapper .van-tab {
@@ -73,4 +73,4 @@
 }
 .tabBar-wrapper .van-tab span{
   display: inline-block !important;
-}
+} */

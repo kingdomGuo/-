@@ -60,8 +60,8 @@
             <van-tabs
               @click="onTabClick"
               v-model="active"
-              color="#2C68FF"
-              title-active-color="#2C68FF"
+              color="#eb5f58"
+              title-active-color="#eb5f58"
             >
               <van-tab
                 v-for="(item, index) in tabData"
@@ -97,8 +97,8 @@
           <van-tabs
             @click="onTabClick"
             v-model="active"
-            color="#2C68FF"
-            title-active-color="#2C68FF"
+            color="#eb5f58"
+            title-active-color="#eb5f58"
             swipeable
           >
             <van-tab

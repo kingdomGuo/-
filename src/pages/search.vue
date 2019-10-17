@@ -1,14 +1,15 @@
 <template>
   <div class="search-wrapper">
     <div class="search-bar">
-      <van-search
-        v-model="value"
-        placeholder="歌曲/歌手/专辑/有声音频"
-        show-action
-        @search="onSearch"
-        @input="inputValue"
-        @cancel="onCancel"
-      />
+      <form action="/">
+        <van-search
+          v-model="value"
+          placeholder="歌曲/歌手/专辑/有声音频"
+          show-action
+          @search="onSearch"
+          @cancel="onCancel"
+        />
+      </form>
     </div>
     <div class="search-list">
       <div class="search-history">
@@ -33,18 +34,29 @@ export default {
       value: ""
     };
   },
+
   mounted() {
-    document.querySelector(".search-wrapper .van-field__control").focus();
+    document.querySelector(
+      ".search-wrapper .van-field__control"
+    ).autofocus = true;
+    this.$nextTick(() => {
+      document.querySelector(
+        ".search-wrapper .van-field__control"
+      ).autofocus = true;
+      if (document.querySelector(".search-wrapper .van-field__control")) {
+        document.querySelector(
+          ".search-wrapper .van-field__control"
+        ).autofocus = true;
+        document.querySelector(".search-wrapper .van-field__control").focus();
+        document.querySelector(".search-wrapper .van-field__control").click();
+      }
+    });
   },
   methods: {
     onCancel() {
       this.$router.back();
     },
     onSearch() {},
-    inputValue(value) {
-      this.value = value;
-      console.log(value);
-    },
     itemsl() {
       this.value = "dddddd";
     }

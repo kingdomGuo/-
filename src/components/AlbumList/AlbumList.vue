@@ -1,7 +1,10 @@
 <template>
   <div class="albulmlist-wrapper" v-if="albumData">
     <div class="album-title">
-      <div class="left">{{ albumData.mouldName }}</div>
+      <div class="left">
+        {{ albumData.mouldName }}
+        <div></div>
+      </div>
       <div class="right" @click="clickMuch(albumData)">
         更多 <van-icon name="arrow" size="12" />
       </div>
@@ -69,6 +72,18 @@ export default {
       float: left;
       margin-left: 5px;
       line-height: 18px;
+      padding: 0 10px;
+      position: relative;
+      div {
+        position: absolute;
+        bottom: -2.5px;
+        width: 100%;
+        height: 8px;
+        background: #eb5f58;
+        border-radius: 5px;
+        opacity: 0.6;
+        left: 0px;
+      }
     }
     .right {
       float: right;

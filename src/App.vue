@@ -9,11 +9,11 @@
   </div>
 </template>
 <script>
-import TabBar from "@components/TabBar/TabBar.vue";
+// import TabBar from "@components/TabBar/TabBar.vue";
 export default {
-  components: {
-    TabBar
-  },
+  // components: {
+  //   TabBar
+  // },
   data() {
     return {
       currentPath: ""
@@ -51,6 +51,7 @@ export default {
 .ucIndex-wrapper .stickyWrapper .van-hairline--top-bottom::after,
 .ucIndex-wrapper .stickyWrapper .van-hairline-unset--top-bottom::after {
   border-bottom-color: rgba(225, 225, 225, 1) !important;
+  border-top: none !important;
 }
 .detail-wrapper .all-wrapper .van-hairline--bottom::after,
 .detail-wrapper .song-list .van-hairline--bottom::after {
@@ -96,6 +97,7 @@ export default {
   overflow: hidden;
   display: flex;
   align-items: center;
+  border-radius: 10px;
 }
 .ucIndex-wrapper .swiper-container .swiper-wrapper .swiper-slide img {
   width: 100%;
@@ -130,10 +132,17 @@ export default {
   font-size: 15px !important;
   font-family: NotoSansHans-Regular, NotoSansHans !important;
   font-weight: 400 !important;
-  color: #fff;
+  color: #fff !important;
+  -webkit-tap-highlight-color: transparent !important;
 }
-.search-bar .van-cell--borderless {
-  line-height: 0;
-  padding-top: 8px !important;
+.search-bar .van-search__action:active {
+  background-color: transparent !important;
+}
+// .search-bar .van-cell--borderless {
+//   line-height: 0;
+//   padding-top: 8px !important;
+// }
+.search-bar input {
+  caret-color: #eb5f58 !important;
 }
 </style>
