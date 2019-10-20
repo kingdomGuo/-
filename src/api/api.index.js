@@ -1,5 +1,9 @@
 import fetch from "@/utils/fetch";
 const APIkey = process.env.VUE_APP_APIkey;
+// const VUE_APP_dcaServerURL = process.env.VUE_APP_dcaServerURL;
+// const VUE_APP_appServerURL = process.env.VUE_APP_appServerURL;
+const VUE_APP_huibenApiURL = process.env.VUE_APP_huibenApiURL;
+const VUE_APP_huibenMpURL = process.env.VUE_APP_huibenMpURL;
 
 // 轮播图
 export function carousel(query) {
@@ -30,7 +34,36 @@ export function batchIndexList(query) {
     params: query
   });
 }
-
+// 绘本轮播图
+export function aiGetCompleteSystemRecommend(data, query) {
+  return fetch({
+    baseURL: VUE_APP_huibenMpURL,
+    url: "/recommend/getCompleteSystemRecommend",
+    method: "post",
+    data: data,
+    params: query
+  });
+}
+// 绘本轮播图
+export function aiGetRecommendDetailed(data, query) {
+  return fetch({
+    baseURL: VUE_APP_huibenMpURL,
+    url: "/recommend/getRecommendDetailed",
+    method: "post",
+    data: data,
+    params: query
+  });
+}
+// 绘本详情
+export function aiGetMiniProgramBookInfo(data, query) {
+  return fetch({
+    baseURL: VUE_APP_huibenApiURL,
+    url: "/mpPicbook/getMiniProgramBookInfo",
+    method: "post",
+    data: data,
+    params: query
+  });
+}
 // 首页更多
 export function albumsListAllDetail(query) {
   query = {

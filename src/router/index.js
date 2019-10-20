@@ -5,6 +5,8 @@ const home = () => import("@pages/Home.vue");
 const muchAlbum = () => import("@pages/muchAlbum.vue");
 const songDetail = () => import("@pages/songDetail.vue");
 const search = () => import("@pages/search.vue");
+const allType = () => import("@pages/allType.vue");
+const huibenDetail = () => import("@pages/huibenDetail.vue");
 Vue.use(Router);
 
 export default new Router({
@@ -34,9 +36,26 @@ export default new Router({
           component: songDetail
         },
         {
+          path: "huibenDetail",
+          name: "huibenDetail",
+          component: huibenDetail
+        },
+        {
           path: "search",
           name: "search",
           component: search
+        },
+        {
+          path: "allType",
+          name: "allType",
+          component: allType,
+          children: [
+            {
+              path: "muchAlbum",
+              name: "muchAlbumList",
+              component: muchAlbum
+            }
+          ]
         }
       ]
     }

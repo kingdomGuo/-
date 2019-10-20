@@ -1,27 +1,54 @@
 <template>
-  <div class="albulmlist-wrapper" v-if="albumData">
-    <div class="album-title">
-      <div class="left">
-        {{ albumData.mouldName }}
-        <div></div>
+  <div>
+    <div class="albulmlist-wrapper" v-if="albumData && type != '绘本'">
+      <div class="album-title">
+        <div class="left">
+          {{ albumData.mouldName }}
+          <div></div>
+        </div>
+        <div class="right" @click="clickMuch(albumData)">
+          更多 <van-icon name="arrow" size="12" />
+        </div>
       </div>
-      <div class="right" @click="clickMuch(albumData)">
-        更多 <van-icon name="arrow" size="12" />
+      <div class="album-list" v-if="albumData">
+        <div
+          class="album-item"
+          v-for="item in albumData.data"
+          :key="item.id"
+          @click="clickAlbum(item, albumData)"
+        >
+          <div class="album-padding">
+            <div class="top-img">
+              <img fit="cover" v-lazy="item.front_url" />
+            </div>
+            <div class="bottom-title">{{ item.name }}</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="album-list" v-if="albumData && albumData.data.length > 0">
-      <div
-        class="album-item"
-        v-for="item in albumData.data"
-        :key="item.id"
-        @click="clickAlbum(item, albumData)"
-      >
-        <div class="album-padding">
-          <div class="top-img">
-            <img fit="cover" v-lazy="item.front_url" />
+    <div class="albulmlist-wrapper" v-if="albumData && type == '绘本'">
+      <div class="album-title">
+        <div class="left">
+          {{ albumData.themeValue }}
+          <div></div>
+        </div>
+        <div class="right" @click="clickMuch(albumData)">
+          更多 <van-icon name="arrow" size="12" />
+        </div>
+      </div>
+      <div class="album-list" v-if="albumData">
+        <div
+          class="album-item"
+          v-for="item in albumData.recommendBooksList"
+          :key="item.id"
+          @click="clickAlbum(item, albumData)"
+        >
+          <div class="album-padding">
+            <div class="top-img huiben-img">
+              <img fit="cover" v-lazy="item.imageUrl" />
+            </div>
+            <div class="bottom-title">{{ item.picBookName }}</div>
           </div>
-          <div class="bottom-title">{{ item.name }}</div>
-          <!-- <div class="bottom-introduce"></div> -->
         </div>
       </div>
     </div>
@@ -39,12 +66,19 @@ export default {
     albumData: {
       type: Object,
       default: () => {}
+    },
+    type: {
+      type: String,
+      default: "歌单"
     }
   },
   data() {
     return {
       key: "value"
     };
+  },
+  mounted() {
+    console.log(this.albumData);
   },
   methods: {
     clickMuch(item) {
@@ -110,7 +144,21 @@ export default {
           img {
             object-fit: cover;
             width: 100%;
-            height: 100%;
+            border-radius: 6px !important;
+            min-height: 105px !important;
+            max-width: 105px !important;
+            max-height: 105px !important;
+            display: block;
+          }
+        }
+        .huiben-img {
+          img {
+            object-fit: cover;
+            width: 100%;
+            border-radius: 6px !important;
+            min-height: 141px !important;
+            max-width: 105px !important;
+            max-height: 141px !important;
             display: block;
           }
         }

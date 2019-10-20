@@ -7,10 +7,16 @@
       @click="clickAlbum(item)"
     >
       <div class="album-padding">
-        <div class="top-img">
+        <div class="top-img huiben-img" v-if="type == 'huiben'">
+          <img fit="cover" v-lazy="item.imageUrl" />
+        </div>
+        <div class="top-img" v-else>
           <img fit="cover" v-lazy="item.front_url" />
         </div>
-        <div class="bottom-title">{{ item.name }}</div>
+        <div class="bottom-title" v-if="type == 'huiben'">
+          {{ item.picBookName }}
+        </div>
+        <div class="bottom-title" v-else>{{ item.name }}</div>
         <div class="bottom-introduce">{{ moduleTitle }}</div>
       </div>
     </div>
@@ -27,6 +33,10 @@ export default {
     albumData: {
       type: Array,
       default: () => []
+    },
+    type: {
+      type: String,
+      default: ""
     },
     moduleTitle: {
       type: String,
@@ -74,6 +84,9 @@ export default {
           display: block;
           border-radius: 10px;
         }
+      }
+      .huiben-img {
+        height: 218px;
       }
     }
     .bottom-title {

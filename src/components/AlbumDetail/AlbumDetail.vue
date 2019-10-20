@@ -1,23 +1,40 @@
 <template>
   <div :class="['child-muchAlbul']" @touchmove.prevent>
-    <scroll
-      ref="suggest"
-      class="child-content"
-      :data="albumList"
-      :pullup="pullup"
-      :beforeScroll="beforeScroll"
-      @scrollToEnd="getAlbumList"
-      @beforeScroll="listScroll"
-    >
-      <div class="muchAlbum-wrapper muchAlbum-content">
-        <div style="height:24px;"></div>
-        <album-much
-          :albumData="albumList"
-          :moduleTitle="query.moduleTitle"
-        ></album-much>
-        <loading v-show="hasMore" title=""></loading>
-      </div>
-    </scroll>
+    <div :class="['child-muchAlbul']" v-if="!query.type">
+      <scroll
+        ref="suggest"
+        class="child-content"
+        :data="albumList"
+        :pullup="pullup"
+        :beforeScroll="beforeScroll"
+        @scrollToEnd="getAlbumList"
+        @beforeScroll="listScroll"
+      >
+        <div class="muchAlbum-wrapper muchAlbum-content">
+          <div style="height:24px;"></div>
+          <album-much
+            :albumData="albumList"
+            :moduleTitle="query.moduleTitle"
+          ></album-much>
+          <loading v-show="hasMore" title=""></loading>
+        </div>
+      </scroll>
+    </div>
+    <div :class="['child-muchAlbul']" v-else>
+      <scroll ref="suggest" class="child-content" :data="albumList">
+        <div class="muchAlbum-wrapper muchAlbum-content">
+          <div style="height:24px;"></div>
+          <album-much
+            :albumData="albumList"
+            :moduleTitle="query.moduleTitle"
+            type="huiben"
+          ></album-much>
+          <div v-show="!albumList.length" class="loading-container">
+            <loading></loading>
+          </div>
+        </div>
+      </scroll>
+    </div>
   </div>
 </template>
 
@@ -25,7 +42,10 @@
 import { ERR_CODE } from "@/utils/config.js";
 import AlbumMuch from "@components/AlbumMuch/AlbumMuch";
 import Scroll from "@components/Scroll/Scroll.vue";
-import { albumsListAllDetail } from "@/api/api.index.js";
+import {
+  albumsListAllDetail,
+  aiGetRecommendDetailed
+} from "@/api/api.index.js";
 import loading from "@components/loading/loading.vue";
 export default {
   components: {
@@ -53,9 +73,21 @@ export default {
     };
   },
   mounted() {
-    this.init();
+    if (!this.query.type) {
+      this.init();
+    } else {
+      this._aiGetRecommendDetailed();
+    }
   },
   methods: {
+    _aiGetRecommendDetailed() {
+      aiGetRecommendDetailed({
+        recommendId: this.$route.query.moduleId,
+        type: this.$route.query.moduleType
+      }).then(res => {
+        this.albumList = res.data.content.recommendBooksList;
+      });
+    },
     refresh() {
       this.$refs.suggest.refresh();
     },
@@ -127,6 +159,12 @@ export default {
 }
 .muchAlbum-wrapper {
   padding: 0 14.5px;
+  .loading-container {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
   .album-list {
     text-align: left;
     width: 100%;

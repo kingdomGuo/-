@@ -72,19 +72,49 @@
             </van-tabs>
           </div>
         </div>
-        <div>
+        <div v-show="type != '绘本'">
           <div class="nav-list">
-            <nav-bar :data="otherALlData" @clickItem="clickItem"></nav-bar>
+            <nav-bar
+              :data="otherALlData"
+              @clickItem="clickItem"
+              :type="type"
+              @clickAll="clickAll"
+              :moreData="moreData"
+            ></nav-bar>
           </div>
           <div class="albumList" v-for="item in otherALlData" :key="item.id">
             <album-list
               :albumData="item"
+              :type="type"
               @clickMuch="clickMuch"
               @clickAlbum="clickAlbum"
             ></album-list>
           </div>
           <!-- longding加载 -->
           <div v-show="!otherALlData.length" class="loading-container">
+            <loading></loading>
+          </div>
+        </div>
+        <div v-show="type == '绘本'">
+          <div class="nav-list">
+            <nav-bar
+              :data="recommendList"
+              :type="type"
+              @clickItem="clickItem"
+              @clickAll="clickAll"
+              :moreData="moreData"
+            ></nav-bar>
+          </div>
+          <div class="albumList" v-for="item in huiReconmmend" :key="item.id">
+            <album-list
+              :albumData="item"
+              :type="type"
+              @clickMuch="clickMuch"
+              @clickAlbum="clickAlbum"
+            ></album-list>
+          </div>
+          <!-- longding加载 -->
+          <div v-show="!recommendList.length" class="loading-container">
             <loading></loading>
           </div>
         </div>
@@ -119,30 +149,38 @@
 
 <script>
 import { Swipe, SwipeItem, Tab, Tabs, Sticky } from "vant";
+
+import {
+  carousel,
+  aiGetCompleteSystemRecommend,
+  aiGetRecommendDetailed
+} from "@/api/api.index.js";
 import { ERR_CODE } from "@/utils/config.js";
-import { carousel, batchIndexList } from "@/api/api.index.js";
 import Scroll from "@components/Scroll/Scroll.vue";
 import loading from "@components/loading/loading.vue";
-import NavBar from "@components/NavBar/NavBar.vue";
 import AlbumList from "@components/AlbumList/AlbumList.vue";
 import slide from "@components/slide/slide.vue";
+import { navlistMixin } from "@/common/js/mixin.js";
 export default {
+  mixins: [navlistMixin],
   name: "ucIndex",
   data() {
     return {
       active: 0,
       scrollY: -1,
       deviceType: "未绑定设备",
+      type: "歌单",
       show: false,
       deltaX: 0,
       container: null,
-      otherALlData: [],
+      huiReconmmend: [],
+      huibenList: [],
+      recommendList: [],
+      birthDate: "2岁",
+      moreData: true,
       tabData: [
         {
           name: "儿童"
-        },
-        {
-          name: "有声"
         },
         {
           name: "绘本"
@@ -161,7 +199,6 @@ export default {
     Scroll: Scroll,
     loading: loading,
     slide: slide,
-    NavBar: NavBar,
     AlbumList: AlbumList
   },
   beforeCreate() {
@@ -171,7 +208,6 @@ export default {
     document.title = "精选社区";
   },
   mounted() {
-    this.getBatchIndexList();
     this.getCarousel();
   },
   watch: {
@@ -212,73 +248,131 @@ export default {
     this.probeType = 3; // better-scroll 滚动组件 不截留
   },
   methods: {
-    // // 轮播图判断是点击还是左右滑动
-    // middleTouchEnd(e, url) {
-    //   if (this.deltaX === 0) {
-    //     window.location.href = url;
-    //   }
-    // },
-    // middleTouchMove(e) {
-    //   if (!this.touch.initiated) {
-    //     return;
-    //   }
-    //   const touch = e.touches[0];
-    //   const deltaX = touch.pageX - this.touch.startX;
-    //   const deltaY = touch.pageY - this.touch.startY;
-    //   if (Math.abs(deltaY) > Math.abs(deltaX)) {
-    //     return;
-    //   }
-    //   this.deltaX = deltaX;
-    //   if (!this.touch.moved) {
-    //     this.touch.moved = true;
-    //   }
-    // },
-    // middleTouchStart(e) {
-    //   this.touch.initiated = true;
-    //   // 用来判断是否是一次移动
-    //   this.touch.moved = false;
-    //   this.deltaX = 0;
-    //   const touch = e.touches[0];
-    //   this.touch.startX = touch.pageX;
-    // },
+    get_aicarousel() {
+      this.huiReconmmend = [];
+      this.huibenList = [];
+      aiGetCompleteSystemRecommend({
+        age: this.birthDate,
+        pageNum: 1,
+        pageSize: 1
+      }).then(response => {
+        this.recommendList = response.data.content[0].recommendList;
+        for (let i = 0; i < this.recommendList.length; i++) {
+          this._aiGetRecommendDetailed(
+            i,
+            this.recommendList[i].recommendId,
+            this.recommendList[i].type
+          );
+        }
+      });
+    },
+    _aiGetRecommendDetailed(index, recommendId, type) {
+      aiGetRecommendDetailed({ recommendId: recommendId, type: type }).then(
+        res => {
+          let recommendBooksList = res.data.content.recommendBooksList;
+          if (res.data.content.recommendBooksSize > 3) {
+            recommendBooksList = res.data.content.recommendBooksList.slice(
+              0,
+              3
+            );
+          }
+          this.huibenList.push({
+            recommendBooksList: recommendBooksList,
+            recommendId: this.recommendList[index].recommendId,
+            type: this.recommendList[index].type,
+            themeValue: this.recommendList[index].themeValue
+          });
+          if (this.recommendList.length === this.huibenList.length) {
+            for (let i = 0; i < this.recommendList.length; i++) {
+              for (let j = 0; j < this.huibenList.length; j++) {
+                if (
+                  this.recommendList[i].recommendId ===
+                  this.huibenList[j].recommendId
+                ) {
+                  this.huiReconmmend.push(this.huibenList[j]);
+                }
+              }
+            }
+          }
+        }
+      );
+    },
     refresh() {
       this.$refs.scroll.refresh();
     },
     clickItem(item) {
-      this.$router.push({
-        path: `/ucIndex/muchAlbum`,
-        query: {
-          moduleTitle: item.mouldName,
-          moduleId: item.id,
-          albumType: item.albumType
-        }
-      });
+      if (this.type == "绘本") {
+        this.$router.push({
+          path: `/ucIndex/muchAlbum`,
+          query: {
+            moduleTitle: item.themeValue,
+            moduleId: item.recommendId,
+            moduleType: item.type,
+            type: "huiben"
+          }
+        });
+      } else {
+        this.$router.push({
+          path: `/ucIndex/muchAlbum`,
+          query: {
+            moduleTitle: item.mouldName,
+            moduleId: item.id,
+            albumType: item.albumType
+          }
+        });
+      }
     },
     clickMuch(item) {
-      this.$router.push({
-        path: `/ucIndex/muchAlbum`,
-        query: {
-          moduleTitle: item.mouldName,
-          moduleId: item.id,
-          albumType: item.albumType
-        }
-      });
+      console.log(item);
+      if (this.type == "绘本") {
+        this.$router.push({
+          path: `/ucIndex/muchAlbum`,
+          query: {
+            moduleTitle: item.themeValue,
+            moduleId: item.recommendId,
+            moduleType: item.type,
+            type: "huiben"
+          }
+        });
+      } else {
+        this.$router.push({
+          path: `/ucIndex/muchAlbum`,
+          query: {
+            moduleTitle: item.mouldName,
+            moduleId: item.id,
+            albumType: item.albumType
+          }
+        });
+      }
     },
     clickAlbum(item, albumData) {
-      this.$router.push({
-        path: `/ucIndex/songDetail`,
-        query: {
-          front_url: item.front_url,
-          id: item.id,
-          name: item.name,
-          source: item.source,
-          type: item.type,
-          information: albumData.albumType
-        }
-      });
+      console.log(item);
+      if (this.type == "绘本") {
+        this.$router.push({
+          path: `/ucIndex/huibenDetail`,
+          query: {
+            picBookId: item.picBookId,
+            recommendId: item.recommendId
+          }
+        });
+      } else {
+        this.$router.push({
+          path: `/ucIndex/songDetail`,
+          query: {
+            front_url: item.front_url,
+            id: item.id,
+            name: item.name,
+            source: item.source,
+            type: item.type,
+            information: albumData.albumType
+          }
+        });
+      }
+    },
+    clickAll() {
+      this.$router.push({ path: `/ucIndex/allType` });
     },
     linkSearch() {
-      console.log("33");
       this.$router.push({ path: `/ucIndex/search` });
     },
     // 获取轮播图
@@ -288,15 +382,13 @@ export default {
         this.images = data.data;
       }
     },
-    // 获取不同类型的专辑list
-    async getBatchIndexList() {
-      let { data } = await batchIndexList({ page: 1, count: 60 });
-      if (data.errcode === ERR_CODE) {
-        this.otherALlData = data.data;
-      }
-    },
     onTabClick(name, title) {
-      this.getCarousel();
+      this.type = title;
+      if (title !== "绘本") {
+        this.getBatchIndexList();
+      } else {
+        this.get_aicarousel();
+      }
       console.log(name, title);
     },
     scroll(pos) {
@@ -352,21 +444,13 @@ export default {
           flex: 1;
           text-align: center;
           margin-left: -17px;
-          // margin-top: 10px;
-          // .deviceType-wrapper {
           font-size: 17px;
           height: 17px;
           line-height: 17px;
-          // display: inline-block;
-          // margin: 0;
           margin-top: 15px;
           color: rgba(255, 255, 255, 1);
-
-          //}
           .icon-down {
-            // margin-top: 2px;
             position: absolute;
-            // margin-left: 13px;
             top: 14px;
           }
         }

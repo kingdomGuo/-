@@ -66,12 +66,12 @@ export default {
   margin-left: 3px !important;
   float: right !important;
 }
-.albulmlist-wrapper .album-list img {
-  border-radius: 10px !important;
-  min-height: 105px !important;
-  max-width: 105px !important;
-  max-height: 105px !important;
-}
+// .albulmlist-wrapper .album-list img {
+//   border-radius: 10px !important;
+//   min-height: 105px !important;
+//   max-width: 105px !important;
+//   max-height: 105px !important;
+// }
 @supports (bottom: env(safe-area-inset-bottom)) {
   body,
   .tabBar-wrapper .van-tabbar {

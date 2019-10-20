@@ -83,6 +83,7 @@ service.interceptors.request.use(
       config.baseURL === VUE_APP_huibenApiURL ||
       config.baseURL === VUE_APP_huibenMpURL
     ) {
+      console.log("ddd");
       config.params = config.params ? config.params : {};
       // delete config.params['openid']
       delete config.params["deviceid"];
